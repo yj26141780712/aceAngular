@@ -3,11 +3,14 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { FixTableComponent } from './fix-table/fix-table.component';
+
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FixTableComponent
   ],
   imports: [
     BrowserModule
