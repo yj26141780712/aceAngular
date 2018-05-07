@@ -18,80 +18,59 @@ export class FixTableComponent implements OnInit {
 
   //排序 fa-sort fa-sort-asc fa-sort-desc
 
-  config = {
-    h_gird: '262px',
+  config: any = {
+    h_gird: '245px',
+    h_gird_view: '243px',
     h_gird_head: '45px',
-    h_gird_body: '200px',
-    w_gird: '802px',
+    h_gird_body: '198px',
+    w_gird: '800px',
     w_gird_fixed: '200px',
-    w_gird_nofixed: '600px',
+    w_gird_nofixed: '598px',
     w_gird_table: '1000px',
+    h_columns: 45,
     columns: [
-      { field: 'm_id', title: '注塑机编号', fixed: true, width: 200 },
-      { field: 'm_name', title: '注塑机名称', fixed: true, width: 200 },
-      { field: 'm_type', title: '注塑机类型', fixed: true, width: 200 },
-      { field: 'c_id', title: '采集器编号', fixed: false, width: 100 },
-      { field: 'o_name', title: '出厂调试人员', fixed: false, width: 100 },
-      { field: 'o_date', title: '出厂日期', fixed: false, width: 100 },
-      { field: 'area', title: '所属片区', fixed: false, width: 100 },
-      { field: 'o_company', title: '出厂公司', fixed: false, width: 100 },
-      { field: 'd_company', title: '代理公司', fixed: false, width: 100 },
-      { field: 's_company', title: '塑料厂', fixed: false, width: 100 },
     ]
   }
-  source: any[];
+  @Input() settings: any;
+  @Input() source: any[];
   scrollTop: number;
   scrollLeft: number;
   constructor(private http: Http) { }
 
   ngOnInit() {
-    let w_gird_fixed = 0; //固定列宽度
-    let w_gird_nofixed = 600; //非固定列默认宽度
-    let w_gird_table = 0;
-    let h_gird_head = 45;
-    let h_gird_body = 200;
-    for (let col of this.config.columns) { 
-      if (col.fixed) {
-        w_gird_fixed += col.width;
-      } else {
-        w_gird_table += col.width;
-      }
-    }
-    this.config.w_gird_fixed = w_gird_fixed + 'px';
-    this.config.w_gird_table = w_gird_table + 'px';
-    this.config.w_gird = (w_gird_fixed + w_gird_nofixed + 2) + 'px';
-    this.config.h_gird_head = h_gird_head + 'px';
-    this.config.h_gird_body = h_gird_body + 'px';
-    this.config.h_gird = (h_gird_head + h_gird_body + 2) + 'px';
+    Object.assign(this.config, this.settings);
+    console.log(this.config);
+    if (this.config.height && this.config.width) {
+      //如果传入的height和width不是数字 做转数字处理
 
-    let _url = "http://192.168.2.229:8088/IMS/api/apideviceList.action";
-    this.http.get(_url).subscribe(res => {
-      let json = res.json();
-      if (json.code == 200) {
-        let data = json.obj;
-        var array = [];
-        for (var i = 0; i < data.length; i++) {
-          var item = { m_id: "", m_name: "", m_type: "", c_id: "", o_name: "", o_date: "", area: "", o_company: "", d_company: "", s_company: "", remarks: "", id: "", x: "", y: "" };
-          item.m_id = data[i].sn;
-          item.m_name = data[i].name;
-          item.m_type = data[i].modelName;
-          item.c_id = data[i].monitorid;
-          item.o_name = data[i].cpersonnel || '';
-          if (data[i].ddate != null) {
-            item.o_date = data[i].ddate.substring(0, 10);
-          }
-          item.area = data[i].areaName;
-          item.o_company = data[i].companyName;
-          item.d_company = data[i].proxyName;
-          item.s_company = data[i].factoryName;
-          item.id = data[i].id;
-          item.x = data[i].x;
-          item.y = data[i].y;
-          array.push(item);
+      let w_gird_fixed = 0; //固定列宽度
+      let w_gird_nofixed = 0; //非固定列默认宽度
+      let w_gird_table = 0;
+      let h_gird_head = 45;
+      let h_gird_body = this.config.height - 45 - this.config.h_columns - 2;
+
+      //计算固定和非固定部分宽度
+      for (let col of this.config.columns) {
+        if (col.fixed) {
+          w_gird_fixed += col.width;
+        } else {
+          w_gird_table += col.width;
         }
-        this.source = [].concat(array);
       }
-    });
+
+      this.config.w_gird_fixed = w_gird_fixed + 'px';
+      this.config.w_gird_nofixed = (this.config.width - w_gird_fixed - 2) + 'px'; // -2 除去边框宽度
+      this.config.w_gird_table = w_gird_table + 'px';
+      this.config.w_gird_view = (this.config.width - 2) + 'px';
+      this.config.w_gird = this.config.width + 'px';
+
+      this.config.h_gird_head = this.config.h_columns + 'px';
+      this.config.h_gird_head = h_gird_head + 'px';
+      this.config.h_gird_body = (this.config.height - h_gird_head - 2) + 'px'; // -2 除去边框高度
+      this.config.h_gird = this.config.height + 'px';
+
+    }
+
   }
 
   /**
@@ -109,16 +88,29 @@ export class FixTableComponent implements OnInit {
    * @param column 列
    */
   sort(column) {
-    console.log(!column.sortType);
+    let bl_asc = true;
     if (!column.sortType) {
       column.sortType = "fa-sort-asc";
     } else {
       if (column.sortType == "fa-sort-asc") {
         column.sortType = "fa-sort-desc";
+        bl_asc = false;
       } else {
         column.sortType = "fa-sort-asc";
       }
     }
-    console.log(column);
+    //console.log(column.field);
+    this.source.sort((a, b) => {
+      //console.log(a[column.field], b[column.field]);
+      if (a[column.field] <= b[column.field]) {
+        return bl_asc ? 1 : -1;
+      }
+      if (a[column.field] > b[column.field]) {
+        return bl_asc ? -1 : 1;
+      }
+    });
+    console.log(this.source);
+    //this.source.sort();
   }
+
 }

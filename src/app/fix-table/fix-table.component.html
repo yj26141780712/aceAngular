@@ -1,5 +1,5 @@
 <div class="datagird-view" [style.width]="config.w_gird" [style.height]="config.h_gird">
-    <div class="datagird-view1" [style.width]="config.w_gird_fixed" [style.height]="config.h_gird_head">
+    <div class="datagird-view1" [style.width]="config.w_gird_fixed" [style.height]="config.h_gird_view">
         <div class="datagird-header">
             <div class="datagird-header-inner">
                 <table class="datagird-htable" [style.width]="config.w_gird_fixed">
@@ -8,7 +8,7 @@
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="column.fixed" [style.width]="column.width+'px'">
                                     <div>{{column.title}}</div>
-                                    <i class="fa" [ngClass]="column.sortType?column.sortType:'fa-sort'" aria-hidden="true" (click)="sort(column)">                                     
+                                    <i class="fa" *ngIf="column.sort" [ngClass]="column.sortType?column.sortType:'fa-sort'" aria-hidden="true" (click)="sort(column)">                                     
                                     </i>
                                 </td>
                             </ng-container>
@@ -36,7 +36,7 @@
 
         </div>
     </div>
-    <div class="datagird-view2" [style.width]="config.w_gird_nofixed">
+    <div class="datagird-view2" [style.width]="config.w_gird_nofixed" [style.height]="config.h_gird_view">
         <div class="datagird-header" [scrollLeft]="scrollLeft">
             <div class="datagird-header-inner">
                 <table class="datagird-htable" [style.height]="config.h_gird_head" [style.width]="config.w_gird_table">
