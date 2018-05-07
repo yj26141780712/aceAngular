@@ -60,4 +60,9 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
+  sortEvent(event) {
+    console.log(event);
+    //this.source=[{m_id:"2"}];
+  }
 }

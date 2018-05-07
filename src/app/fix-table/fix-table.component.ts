@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
 
 @Component({
@@ -33,6 +33,7 @@ export class FixTableComponent implements OnInit {
   }
   @Input() settings: any;
   @Input() source: any[];
+  @Output() sortEvent = new EventEmitter<any>();
   scrollTop: number;
   scrollLeft: number;
   constructor(private http: Http) { }
@@ -99,17 +100,19 @@ export class FixTableComponent implements OnInit {
         column.sortType = "fa-sort-asc";
       }
     }
+    this.sortEvent.emit({ field: column.field, bl_asc: bl_asc });
+    //console.log("出发了！");
     //console.log(column.field);
-    this.source.sort((a, b) => {
-      //console.log(a[column.field], b[column.field]);
-      if (a[column.field] <= b[column.field]) {
-        return bl_asc ? 1 : -1;
-      }
-      if (a[column.field] > b[column.field]) {
-        return bl_asc ? -1 : 1;
-      }
-    });
-    console.log(this.source);
+    // this.source.sort((a, b) => {
+    //   //console.log(a[column.field], b[column.field]);
+    //   if (a[column.field] <= b[column.field]) {
+    //     return bl_asc ? -1 : 1;
+    //   }
+    //   if (a[column.field] > b[column.field]) {
+    //     return bl_asc ? 1 : -1;
+    //   }
+    // });
+    // console.log(this.source);
     //this.source.sort();
   }
 
