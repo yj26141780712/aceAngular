@@ -4,18 +4,20 @@ $base: #44268a;
 }
 
 @mixin tr() {
-    height: 25px;
     td {
-        line-height: 25px;
         overflow: hidden;
         border-width: 0 1px 1px 0;
         border-style: dotted;
         border-color: #ccc;
-        padding: 0;
+        padding: 8px;
+        height: 44px;
         margin: 0;
+        // border: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        border-right: 1px solid #ddd;
         div {
             margin: 0;
-            padding: 0 4px;
+            padding: 0;
             line-height: 18px;
             height: 18px;
             font-size: 12px;
@@ -28,8 +30,45 @@ $base: #44268a;
 .datagird-view {
     position: relative;
     overflow: hidden;
-    height: 100%;
-    width: 100%;
+    border: 1px solid #ddd;
+    .datagird-header {
+        table {
+            background-color: #fff;
+            tr {
+                background: linear-gradient(to bottom, #fcfcfc 20%, #eee 100%);
+                td {
+                    cursor: pointer;
+                    color: #307ecc;
+                    font-size: 1.2rem;
+                    font-weight: 700;
+                    text-indent: 0.5rem; //文字缩进 
+                }
+            }
+        }
+    }
+    .datagird-body {
+        table {
+            tr {
+                &:nth-child(odd) {
+                    background: #f9f9f9
+                }
+            }
+        }
+    }
+    .datagird-loading {
+        height: 100%;
+        width: 100%;
+        // border: 1px solid #ddd;
+        h2 {
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            // text-align: center;
+            //margin-top: 45px;
+        }
+    }
 }
 
 .datagird-view1 {
@@ -39,7 +78,6 @@ $base: #44268a;
     height: 100%;
     .datagird-header {
         .datagird-header-inner {
-            //background: lighten($base, 20%);
             .datagird-htable {
                 table-layout: fixed;
                 tr {
@@ -62,11 +100,8 @@ $base: #44268a;
             }
             margin-bottom: 25px;
         }
-        //background:lighten($base, 40%);
     }
-    .datagird-footer {
-        //background: lighten($base, 20%);
-    }
+    .datagird-footer {}
 }
 
 .datagird-view2 {
@@ -75,11 +110,9 @@ $base: #44268a;
     top: 0;
     height: 100%;
     .datagird-header {
-        // overflow: auto;
         overflow: hidden;
         .datagird-header-inner {
             width: 10000px;
-            //background: lighten($base, 20%);
             .datagird-htable {
                 table-layout: fixed;
                 tr {
@@ -87,12 +120,10 @@ $base: #44268a;
                 }
                 margin: 0;
             }
-            //margin-right: 25px;
         }
     }
     .datagird-body {
         overflow: auto;
-        //background: lighten($base, 20%);
         .datagird-btable {
             table-layout: fixed;
             tr {
@@ -100,15 +131,13 @@ $base: #44268a;
             }
             margin: 0;
         }
-        //background:lighten($base, 40%);
     }
-    .datagird-footer {
-        //background: lighten($base, 20%);
-    }
+    .datagird-footer {}
 }
 
 .datagird-btable,
 .datagird-htable {
-    border-collapse: separate;
+    border-collapse: separate; //表格边框合并
     border-spacing: 0;
+    //border-collapse: collapse; //表格边框整体属性
 }
