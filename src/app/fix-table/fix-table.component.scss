@@ -16,11 +16,12 @@ $base: #44268a;
         border-bottom: 1px solid #ddd;
         border-right: 1px solid #ddd;
         div {
+            float: left;
             margin: 0;
             padding: 0;
-            line-height: 18px;
-            height: 18px;
-            font-size: 12px;
+            line-height: 28px;
+            height: 28px;
+            font-size: 14px;
             overflow: hidden;
             white-space: nowrap;
         }
@@ -39,9 +40,13 @@ $base: #44268a;
                 td {
                     cursor: pointer;
                     color: #307ecc;
-                    font-size: 1.2rem;
                     font-weight: 700;
-                    text-indent: 0.5rem; //文字缩进 
+                    //text-indent: 0.5rem; //文字缩进 
+                    i {
+                        float: right;
+                        margin-top: 6px;
+                        font-size: 16px;
+                    }
                 }
             }
         }

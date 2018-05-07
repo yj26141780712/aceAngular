@@ -16,6 +16,8 @@ export class FixTableComponent implements OnInit {
   //表身高度 h_gird_body
   //表格实际宽度
 
+  //排序 fa-sort fa-sort-asc fa-sort-desc
+
   config = {
     h_gird: '262px',
     h_gird_head: '45px',
@@ -25,9 +27,9 @@ export class FixTableComponent implements OnInit {
     w_gird_nofixed: '600px',
     w_gird_table: '1000px',
     columns: [
-      { field: 'm_id', title: '注塑机编号', fixed: true, width: 100 },
-      { field: 'm_name', title: '注塑机名称', fixed: true, width: 100 },
-      { field: 'm_type', title: '注塑机类型', fixed: true, width: 100 },
+      { field: 'm_id', title: '注塑机编号', fixed: true, width: 200 },
+      { field: 'm_name', title: '注塑机名称', fixed: true, width: 200 },
+      { field: 'm_type', title: '注塑机类型', fixed: true, width: 200 },
       { field: 'c_id', title: '采集器编号', fixed: false, width: 100 },
       { field: 'o_name', title: '出厂调试人员', fixed: false, width: 100 },
       { field: 'o_date', title: '出厂日期', fixed: false, width: 100 },
@@ -48,7 +50,7 @@ export class FixTableComponent implements OnInit {
     let w_gird_table = 0;
     let h_gird_head = 45;
     let h_gird_body = 200;
-    for (let col of this.config.columns) {
+    for (let col of this.config.columns) { 
       if (col.fixed) {
         w_gird_fixed += col.width;
       } else {
@@ -92,23 +94,31 @@ export class FixTableComponent implements OnInit {
     });
   }
 
+  /**
+   * 滚动条事件
+   * @param event 事件对象
+   */
   scroll(event) {
-    console.log(event, event.target.scrollTop);
+    //console.log(event, event.target.scrollTop);
     this.scrollTop = event.target.scrollTop;
     this.scrollLeft = event.target.scrollLeft;
-    console.log(this.scrollLeft);
-    //let _top =document.getElementById('top');
-    //_top.scrollTop=this.scrollTop;
-    //console.log(document.getElementById('top').scrollTop);
-    //console.log(_left);
-    //let _view1=document.getElementsByClassName(".datagird-view1");
-    //_view1.
-    //let _view2=document.getElementsByClassName(".datagird-view2");
-
-    //document.getElementById("head")._scrollContent.nativeElement.scrollLeft = document.getElementById("right")._scrollContent.nativeElement.scrollLeft;
-    //document.getElementById("left")._scrollContent.nativeElement.scrollTop = document.getElementById("right")._scrollContent.nativeElement.scrollTop;
   }
-  test() {
-    console.log(123);
+
+  /**
+   * 点击排序
+   * @param column 列
+   */
+  sort(column) {
+    console.log(!column.sortType);
+    if (!column.sortType) {
+      column.sortType = "fa-sort-asc";
+    } else {
+      if (column.sortType == "fa-sort-asc") {
+        column.sortType = "fa-sort-desc";
+      } else {
+        column.sortType = "fa-sort-asc";
+      }
+    }
+    console.log(column);
   }
 }

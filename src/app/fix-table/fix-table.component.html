@@ -8,6 +8,8 @@
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="column.fixed" [style.width]="column.width+'px'">
                                     <div>{{column.title}}</div>
+                                    <i class="fa" [ngClass]="column.sortType?column.sortType:'fa-sort'" aria-hidden="true" (click)="sort(column)">                                     
+                                    </i>
                                 </td>
                             </ng-container>
                         </tr>
