@@ -1,5 +1,5 @@
 import { element } from 'protractor';
-import { Component, OnInit, Input, Output, EventEmitter, Renderer2, ElementRef, ViewChild, OnChanges, HostListener } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { Http } from '@angular/http';
 
 @Component({
@@ -7,7 +7,7 @@ import { Http } from '@angular/http';
   templateUrl: './fix-table.component.html',
   styleUrls: ['./fix-table.component.scss']
 })
-export class FixTableComponent implements OnInit, OnChanges {
+export class FixTableComponent implements OnInit {
 
   //表宽度
   //固定列宽度 w_gird_fixed 
@@ -47,7 +47,7 @@ export class FixTableComponent implements OnInit, OnChanges {
   pages = [{ text: "1", number: 1, active: true }, { text: "2", number: 2, active: false }];
   isShow = false;
   disabled = false;
-  constructor(private http: Http, private element: ElementRef) {
+  constructor(private http: Http) {
 
   }
 
