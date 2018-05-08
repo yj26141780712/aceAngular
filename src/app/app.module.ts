@@ -5,7 +5,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { AppComponent } from './app.component';
 import { FixTableComponent } from './fix-table/fix-table.component';
-
+import { PaginationModule } from 'ngx-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -16,7 +17,9 @@ import { FixTableComponent } from './fix-table/fix-table.component';
   imports: [
     BrowserModule,
     HttpModule,
-    BsDropdownModule.forRoot()
+    FormsModule,
+    BsDropdownModule.forRoot(),
+    PaginationModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

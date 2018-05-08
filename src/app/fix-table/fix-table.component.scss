@@ -32,6 +32,8 @@ $base: #44268a;
     position: relative;
     overflow: hidden;
     border: 1px solid #ddd;
+    width: 100%;
+    height: calc(100% - 50px);
     .datagird-header {
         table {
             background-color: #fff;
@@ -82,6 +84,7 @@ $base: #44268a;
     top: 0;
     height: 100%;
     .datagird-header {
+        //height:45px;
         .datagird-header-inner {
             .datagird-htable {
                 table-layout: fixed;
@@ -94,6 +97,7 @@ $base: #44268a;
     }
     .datagird-body {
         overflow: hidden;
+        //height: calc(100% - 45px);
         .datagird-body-inner {
             //background: lighten($base, 20%);
             .datagird-btable {
@@ -115,6 +119,7 @@ $base: #44268a;
     top: 0;
     height: 100%;
     .datagird-header {
+        //height:45px;
         overflow: hidden;
         .datagird-header-inner {
             width: 10000px;
@@ -129,6 +134,8 @@ $base: #44268a;
     }
     .datagird-body {
         overflow: auto;
+        //height: calc(100% - 45px);
+        //height: 100%;
         .datagird-btable {
             table-layout: fixed;
             tr {
@@ -146,3 +153,41 @@ $base: #44268a;
     border-spacing: 0;
     //border-collapse: collapse; //表格边框整体属性
 }
+.datagird-page{
+    height: 50px;
+    padding: 5px 3px;
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+    border: 1px solid #ddd;
+    border-top: 0;
+    .pages{
+        color: #007bff;
+        .btn-group{
+            .dropUpShow{
+                left: 0px;
+                right: auto;
+                top: auto;
+                transform: translateY(-101%);
+            }
+        }
+    }
+    .pagination{
+        display: flex;
+        align-items:center;
+        input{
+            width: 60px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            height: 36px;
+        }
+        button{
+            height: 36px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            display: flex;
+            align-items:center;
+        } 
+    }    
+}
+

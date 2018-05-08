@@ -1,6 +1,6 @@
-<div class="datagird-view" [style.width]="config.w_gird" [style.height]="config.h_gird">
+<div class="datagird-view">
     <div class="datagird-view1" [style.width]="config.w_gird_fixed" [style.height]="config.h_gird_view">
-        <div class="datagird-header">
+        <div class="datagird-header" [style.height]="config.h_gird_header">
             <div class="datagird-header-inner">
                 <table class="datagird-htable" [style.width]="config.w_gird_fixed">
                     <thead>
@@ -8,7 +8,7 @@
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="column.fixed" [style.width]="column.width+'px'">
                                     <div>{{column.title}}</div>
-                                    <i class="fa" *ngIf="column.sort" [ngClass]="column.sortType?column.sortType:'fa-sort'" aria-hidden="true" (click)="sort(column)">                                     
+                                    <i class="fa" *ngIf="column.sort" [ngClass]="column.sortType?column.sortType:'fa-sort'" aria-hidden="true" (click)="sort(column)">
                                     </i>
                                 </td>
                             </ng-container>
@@ -21,7 +21,7 @@
             <div class="datagird-body-inner">
                 <table class="datagird-btable" [style.width]="config.w_gird_fixed">
                     <tbody>
-                        <tr *ngFor="let item of source">
+                        <tr *ngFor="let item of sourceShow">
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="column.fixed" [style.width]="column.width+'px'">
                                     <div>{{ item[column.field] }}</div>
@@ -36,8 +36,8 @@
 
         </div>
     </div>
-    <div class="datagird-view2" [style.width]="config.w_gird_nofixed" [style.height]="config.h_gird_view">
-        <div class="datagird-header" [scrollLeft]="scrollLeft">
+    <div class="datagird-view2" [style.left]="config.w_gird_fixed" [style.height]="config.h_gird_view">
+        <div class="datagird-header" [style.height]="config.h_gird_header" [scrollLeft]="scrollLeft">
             <div class="datagird-header-inner">
                 <table class="datagird-htable" [style.height]="config.h_gird_head" [style.width]="config.w_gird_table">
                     <thead>
@@ -55,7 +55,7 @@
         <div class="datagird-body" [style.height]="config.h_gird_body" (scroll)="scroll($event)">
             <table class="datagird-btable " [style.width]="config.w_gird_table">
                 <tbody>
-                    <tr *ngFor="let item of source">
+                    <tr *ngFor="let item of sourceShow">
                         <ng-container *ngFor="let column of config.columns">
                             <td *ngIf="!column.fixed" [style.width]="column.width+'px'">
                                 <div>{{ item[column.field] }}</div>
@@ -70,5 +70,29 @@
     </div>
     <div class="datagird-loading" *ngIf="!source">
         <h2>数据加载中</h2>
+    </div>
+</div>
+<div class="datagird-page">
+    <div class="pages">     
+        <div class="btn-group" dropdown >
+            <button dropdownToggle type="button"
+             class="btn btn-primary dropdown-toggle" (click)="clickPageNum()">
+                {{itemsPerPage}}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropUpShow" *dropdownMenu>
+                <li role="menuitem" *ngFor="let pageNum of pages">
+                    <a class="dropdown-item" href="#" (click)="selectPageNum(pageNum)">{{pageNum}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="pagination">
+        <pagination [boundaryLinks]="true" firstText="首页" lastText="尾页" previousText="上一页" nextText="下一页" [totalItems]="totalItems"
+            [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" [maxSize]="maxSize" (pageChanged)="pageChanged($event)"></pagination>
+        <input type="text" class="form-control" [value]="currentPage">
+        <button class="btn btn-primary">
+            <i class="fa fa-play" aria-hidden="true"></i>
+        </button>
     </div>
 </div>

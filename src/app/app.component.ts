@@ -8,22 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   title = 'app';
-  settings = {
-    height: 400,
-    width: 800,
-    columns: [
-      { field: 'm_id', title: '注塑机编号', fixed: true, sort: true, width: 200 },
-      { field: 'm_name', title: '注塑机名称', fixed: true, width: 200 },
-      { field: 'm_type', title: '注塑机类型', fixed: true, width: 200 },
-      { field: 'c_id', title: '采集器编号', fixed: false, width: 100 },
-      { field: 'o_name', title: '出厂调试人员', fixed: false, width: 100 },
-      { field: 'o_date', title: '出厂日期', fixed: false, width: 100 },
-      { field: 'area', title: '所属片区', fixed: false, width: 100 },
-      { field: 'o_company', title: '出厂公司', fixed: false, width: 100 },
-      { field: 'd_company', title: '代理公司', fixed: false, width: 100 },
-      { field: 's_company', title: '塑料厂', fixed: false, width: 100 },
-    ]
-  }
+  settings: any;
   source: any[];
 
   constructor(private http: Http) {
@@ -31,6 +16,20 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.settings = {
+      columns: [
+        { field: 'm_id', title: '注塑机编号', fixed: false, sort: true, width: 50 },
+        { field: 'm_name', title: '注塑机名称', fixed: false, width: 50 },
+        { field: 'm_type', title: '注塑机类型', fixed: false, width: 100 },
+        { field: 'c_id', title: '采集器编号', fixed: false, width: 100 },
+        { field: 'o_name', title: '出厂调试人员', fixed: false, width: 100 },
+        { field: 'o_date', title: '出厂日期', fixed: false, width: 100 },
+        { field: 'area', title: '所属片区', fixed: false, width: 100 },
+        { field: 'o_company', title: '出厂公司', fixed: false, width: 100 },
+        { field: 'd_company', title: '代理公司', fixed: false, width: 100 },
+        { field: 's_company', title: '塑料厂', fixed: false, width: 150 },
+      ]
+    }
     let _url = "http://192.168.2.229:8088/IMS/api/apideviceList.action";
     this.http.get(_url).subscribe(res => {
       let json = res.json();
@@ -57,12 +56,21 @@ export class AppComponent implements OnInit {
           array.push(item);
         }
         this.source = [].concat(array);
+        console.log("test");
       }
     });
   }
 
   sortEvent(event) {
     console.log(event);
-    //this.source=[{m_id:"2"}];
+    this.source.sort((a, b) => {
+      //console.log(a[column.field], b[column.field]);
+      if (a[event.field] <= b[event.field]) {
+        return event.bl_asc ? 1 : -1;
+      }
+      if (a[event.field] > b[event.field]) {
+        return event.bl_asc ? -1 : 1;
+      }
+    })
   }
 }
