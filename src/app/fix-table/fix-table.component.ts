@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { element } from 'protractor';
+import { Component, OnInit, Input, Output, EventEmitter, Renderer2, ElementRef, ViewChild, OnChanges, HostListener } from '@angular/core';
 import { Http } from '@angular/http';
 
 @Component({
@@ -6,7 +7,7 @@ import { Http } from '@angular/http';
   templateUrl: './fix-table.component.html',
   styleUrls: ['./fix-table.component.scss']
 })
-export class FixTableComponent implements OnInit {
+export class FixTableComponent implements OnInit, OnChanges {
 
   //表宽度
   //固定列宽度 w_gird_fixed 
@@ -15,19 +16,19 @@ export class FixTableComponent implements OnInit {
   //表头高度 h_gird_head
   //表身高度 h_gird_body
   //表格实际宽度
-
   //排序 fa-sort fa-sort-asc fa-sort-desc
 
+  //可增加的功能
+  //分页控件
+  //表格字体位置 颜色
+  //表头高度 多级表头
+
+  //表格
   config: any = {
-    h_gird: '245px',
-    h_gird_view: '243px',
-    h_gird_head: '45px',
-    h_gird_body: '198px',
-    w_gird: '800px',
-    w_gird_fixed: '200px',
-    w_gird_nofixed: '598px',
-    w_gird_table: '1000px',
-    h_columns: 45,
+    h_gird_header: '45px',
+    h_gird_body: 'calc(100% - 45px)',
+    w_gird_fixed: '',
+    w_gird_table: '',
     columns: [
     ]
   }
@@ -36,44 +37,46 @@ export class FixTableComponent implements OnInit {
   @Output() sortEvent = new EventEmitter<any>();
   scrollTop: number;
   scrollLeft: number;
-  constructor(private http: Http) { }
+  sourceShow: any[];
+  //分页
+  totalItems: number;
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  maxSize: number = 10;
+  pageNums = [10, 20, 50, 100];
+  pages = [{ text: "1", number: 1, active: true }, { text: "2", number: 2, active: false }];
+  isShow = false;
+  disabled = false;
+  constructor(private http: Http, private element: ElementRef) {
+
+  }
 
   ngOnInit() {
     Object.assign(this.config, this.settings);
     console.log(this.config);
-    if (this.config.height && this.config.width) {
-      //如果传入的height和width不是数字 做转数字处理
-
-      let w_gird_fixed = 0; //固定列宽度
-      let w_gird_nofixed = 0; //非固定列默认宽度
-      let w_gird_table = 0;
-      let h_gird_head = 45;
-      let h_gird_body = this.config.height - 45 - this.config.h_columns - 2;
-
-      //计算固定和非固定部分宽度
-      for (let col of this.config.columns) {
-        if (col.fixed) {
-          w_gird_fixed += col.width;
-        } else {
-          w_gird_table += col.width;
-        }
+    let w_gird_fixed = 0; //固定列宽度
+    let w_gird_table = 0;
+    //计算固定和非固定部分宽度
+    for (let col of this.config.columns) {
+      if (col.fixed) {
+        w_gird_fixed += col.width;
+      } else {
+        w_gird_table += col.width;
       }
-
-      this.config.w_gird_fixed = w_gird_fixed + 'px';
-      this.config.w_gird_nofixed = (this.config.width - w_gird_fixed - 2) + 'px'; // -2 除去边框宽度
-      this.config.w_gird_table = w_gird_table + 'px';
-      this.config.w_gird_view = (this.config.width - 2) + 'px';
-      this.config.w_gird = this.config.width + 'px';
-
-      this.config.h_gird_head = this.config.h_columns + 'px';
-      this.config.h_gird_head = h_gird_head + 'px';
-      this.config.h_gird_body = (this.config.height - h_gird_head - 2) + 'px'; // -2 除去边框高度
-      this.config.h_gird = this.config.height + 'px';
-
     }
-
+    this.config.w_gird_fixed = w_gird_fixed + 'px';
+    this.config.w_gird_table = w_gird_table + 'px';
+    console.log(this.config);
   }
 
+  ngOnChanges() {
+    if (this.source) {
+      let start: number = (this.currentPage - 1) * this.itemsPerPage;
+      let end: number = start + this.itemsPerPage;
+      this.sourceShow = this.source.slice(start, end);
+      this.totalItems = 300;
+    }
+  }
   /**
    * 滚动条事件
    * @param event 事件对象
@@ -101,19 +104,46 @@ export class FixTableComponent implements OnInit {
       }
     }
     this.sortEvent.emit({ field: column.field, bl_asc: bl_asc });
-    //console.log("出发了！");
-    //console.log(column.field);
-    // this.source.sort((a, b) => {
-    //   //console.log(a[column.field], b[column.field]);
-    //   if (a[column.field] <= b[column.field]) {
-    //     return bl_asc ? -1 : 1;
-    //   }
-    //   if (a[column.field] > b[column.field]) {
-    //     return bl_asc ? 1 : -1;
-    //   }
-    // });
-    // console.log(this.source);
-    //this.source.sort();
+  }
+  //分页
+  selectPage(num, event: Event) {
+    console.log(event);
+    return false;
   }
 
+
+  noPrevious() {
+    return true;
+  }
+
+  noNext() {
+    return false;
+  }
+  /**
+   * 页数选择按钮点击事件
+   * @param event 
+   */
+  clickPageNum(event) {
+    this.isShow = !this.isShow;
+    event.stopPropagation();
+  }
+  /**
+   * 选择每页显示数量
+   * @param num 每页数量
+   */
+  selectPageNum(event) {
+    //console.log(event.target.text);
+    this.isShow = !this.isShow;
+    this.itemsPerPage = Number(event.target.text);
+    event.stopPropagation();
+  }
+
+  /** 
+   * 监听document click事件
+  */
+  @HostListener('document:click', ['$event'])
+  onclick() {
+    console.log(123);
+    this.isShow = false;
+  }
 }

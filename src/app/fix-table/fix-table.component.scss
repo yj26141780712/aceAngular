@@ -1,148 +1,232 @@
-$base: #44268a;
-* {
-    box-sizing: border-box;
-}
-
-@mixin tr() {
-    td {
-        overflow: hidden;
-        border-width: 0 1px 1px 0;
-        border-style: dotted;
-        border-color: #ccc;
-        padding: 8px;
-        height: 44px;
-        margin: 0;
-        // border: 1px solid #ddd;
-        border-bottom: 1px solid #ddd;
-        border-right: 1px solid #ddd;
-        div {
-            float: left;
-            margin: 0;
-            padding: 0;
-            line-height: 28px;
-            height: 28px;
-            font-size: 14px;
+    $base: #44268a;
+    * {
+        box-sizing: border-box;
+    }
+    
+    @mixin tr() {
+        td {
             overflow: hidden;
-            white-space: nowrap;
+            border-width: 0 1px 1px 0;
+            border-style: dotted;
+            border-color: #ccc;
+            padding: 8px;
+            height: 44px;
+            margin: 0;
+            // border: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            div {
+                float: left;
+                margin: 0;
+                padding: 0;
+                line-height: 28px;
+                height: 28px;
+                font-size: 14px;
+                overflow: hidden;
+                white-space: nowrap;
+            }
         }
     }
-}
-
-.datagird-view {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid #ddd;
-    .datagird-header {
-        table {
-            background-color: #fff;
-            tr {
-                background: linear-gradient(to bottom, #fcfcfc 20%, #eee 100%);
-                td {
-                    cursor: pointer;
-                    color: #307ecc;
-                    font-weight: 700;
-                    //text-indent: 0.5rem; //文字缩进 
-                    i {
-                        float: right;
-                        margin-top: 6px;
-                        font-size: 16px;
+    
+    .datagird-view {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #ddd;
+        width: 100%;
+        height: calc(100% - 50px);
+        .datagird-header {
+            table {
+                background-color: #fff;
+                tr {
+                    background: linear-gradient(to bottom, #fcfcfc 20%, #eee 100%);
+                    td {
+                        cursor: pointer;
+                        color: #307ecc;
+                        font-weight: 700;
+                        //text-indent: 0.5rem; //文字缩进 
+                        i {
+                            float: right;
+                            margin-top: 6px;
+                            font-size: 16px;
+                        }
                     }
                 }
             }
         }
-    }
-    .datagird-body {
-        table {
-            tr {
-                &:nth-child(odd) {
-                    background: #f9f9f9
-                }
-            }
-        }
-    }
-    .datagird-loading {
-        height: 100%;
-        width: 100%;
-        // border: 1px solid #ddd;
-        h2 {
-            display: block;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            // text-align: center;
-            //margin-top: 45px;
-        }
-    }
-}
-
-.datagird-view1 {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    .datagird-header {
-        .datagird-header-inner {
-            .datagird-htable {
-                table-layout: fixed;
+        .datagird-body {
+            table {
                 tr {
-                    @include tr();
+                    &:nth-child(odd) {
+                        background: #f9f9f9
+                    }
                 }
-                margin: 0;
+            }
+        }
+        .datagird-loading {
+            height: 100%;
+            width: 100%;
+            // border: 1px solid #ddd;
+            h2 {
+                display: block;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                // text-align: center;
+                //margin-top: 45px;
             }
         }
     }
-    .datagird-body {
-        overflow: hidden;
-        .datagird-body-inner {
-            //background: lighten($base, 20%);
+    
+    .datagird-view1 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        .datagird-header {
+            //height:45px;
+            .datagird-header-inner {
+                .datagird-htable {
+                    table-layout: fixed;
+                    tr {
+                        @include tr();
+                    }
+                    margin: 0;
+                }
+            }
+        }
+        .datagird-body {
+            overflow: hidden;
+            //height: calc(100% - 45px);
+            .datagird-body-inner {
+                //background: lighten($base, 20%);
+                .datagird-btable {
+                    table-layout: fixed;
+                    tr {
+                        @include tr();
+                    }
+                    margin: 0;
+                }
+                margin-bottom: 25px;
+            }
+        }
+        .datagird-footer {}
+    }
+    
+    .datagird-view2 {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        .datagird-header {
+            //height:45px;
+            overflow: hidden;
+            .datagird-header-inner {
+                width: 10000px;
+                .datagird-htable {
+                    table-layout: fixed;
+                    tr {
+                        @include tr();
+                    }
+                    margin: 0;
+                }
+            }
+        }
+        .datagird-body {
+            overflow: auto;
+            //height: calc(100% - 45px);
+            //height: 100%;
             .datagird-btable {
                 table-layout: fixed;
                 tr {
-                    @include tr();
-                }
-                margin: 0;
-            }
-            margin-bottom: 25px;
-        }
-    }
-    .datagird-footer {}
-}
-
-.datagird-view2 {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    .datagird-header {
-        overflow: hidden;
-        .datagird-header-inner {
-            width: 10000px;
-            .datagird-htable {
-                table-layout: fixed;
-                tr {
-                    @include tr();
+                    @include tr()
                 }
                 margin: 0;
             }
         }
+        .datagird-footer {}
     }
-    .datagird-body {
-        overflow: auto;
-        .datagird-btable {
-            table-layout: fixed;
-            tr {
-                @include tr()
+    
+    .datagird-btable,
+    .datagird-htable {
+        border-collapse: separate; //表格边框合并
+        border-spacing: 0;
+        //border-collapse: collapse; //表格边框整体属性
+    }
+    
+    .datagird-page {
+        height: 50px;
+        padding: 5px 3px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid #ddd;
+        border-top: 0;
+        // max-width: 100%; 
+        background: linear-gradient(to bottom, #fcfcfc 20%, #eee 100%);
+        .page-left {
+            display: flex;
+            align-items: center;
+            color: #007bff;
+            .btn-group {
+                .dropUpShow {
+                    left: 0px;
+                    right: auto;
+                    top: auto;
+                    transform: translateY(-101%);
+                }
+                button {
+                    //height: 36px;
+                    vertical-align: middle;
+                    color: #007bff;
+                    background: rgba(255, 255, 255, 0);
+                }
+                ul {
+                    li {
+                        .page-link {
+                            color: #007bff;
+                        }
+                    }
+                }
             }
-            margin: 0;
+        }
+        .page-right {
+            display: flex;
+            align-items: center;
+            .pagination {
+                //background: black;
+                margin: 0;
+                .page-item {
+                    a {
+                        border: 0;
+                        background: rgba(255, 255, 255, 0);
+                        //color: #007bff;
+                    }
+                }
+                .active {
+                    a {
+                        //color: #912b2b;
+                        background: #007bff;
+                    }
+                }
+            }
+            input {
+                width: 60px;
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+                height: 36px;
+            }
+            button {
+                height: 36px;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+                display: flex;
+                align-items: center;
+            }
         }
     }
-    .datagird-footer {}
-}
-
-.datagird-btable,
-.datagird-htable {
-    border-collapse: separate; //表格边框合并
-    border-spacing: 0;
-    //border-collapse: collapse; //表格边框整体属性
-}
+    
+    .test {
+        margin-bottom: 0 !important;
+        color: black;
+    }
