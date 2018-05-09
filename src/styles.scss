@@ -3,18 +3,12 @@
 @import 'variables';
 @import '../node_modules/bootstrap/scss/bootstrap';
 @import '../node_modules/font-awesome/scss/font-awesome';
-
-
-html,body{
+html,
+body {
     height: 100%;
     width: 100%;
 }
-
-.datagird-page ul{
-    margin-bottom: 0;
-    li{
-      a{
-        border: 0; 
-      } 
-    }
-}
+ 
+// .datagird-page .pagination ul {
+//     margin-bottom: 0 !important;
+// }

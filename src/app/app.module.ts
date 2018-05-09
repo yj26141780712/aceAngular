@@ -7,21 +7,19 @@ import { AppComponent } from './app.component';
 import { FixTableComponent } from './fix-table/fix-table.component';
 import { PaginationModule } from 'ngx-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { FixTableModule } from './fix-table/fix-table.module'; 
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    FixTableComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    FormsModule,
-    BsDropdownModule.forRoot(),
-    PaginationModule.forRoot()
+    FixTableModule 
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent]   
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
 import { element } from 'protractor';
-import { Component, OnInit, Input, Output, EventEmitter, Renderer2, ElementRef, ViewChild, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener, OnChanges } from '@angular/core';
 import { Http } from '@angular/http';
 
 @Component({
@@ -41,18 +41,21 @@ export class FixTableComponent implements OnInit, OnChanges {
   //分页
   totalItems: number;
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  totalPages: number = 1;
+  itemsPerPage: number = 20;
   maxSize: number = 10;
-  pages = [10, 20, 50, 100];
-  isDropup = true;
-  constructor(private http: Http, private element: ElementRef) {
+  pageNums = [10, 20, 50, 100];
+  pages = [];
+  inputPage: string;
+  isShow = false;
+  disabled = false;
+  constructor(private http: Http) {
 
   }
 
   ngOnInit() {
-    Object.assign(this.config, this.settings);
-    console.log(this.config);
-    let w_gird_fixed = 0; //固定列宽度
+    //固定列宽度
+    let w_gird_fixed = 0;
     let w_gird_table = 0;
     //计算固定和非固定部分宽度
     for (let col of this.config.columns) {
@@ -64,15 +67,40 @@ export class FixTableComponent implements OnInit, OnChanges {
     }
     this.config.w_gird_fixed = w_gird_fixed + 'px';
     this.config.w_gird_table = w_gird_table + 'px';
-    this.config.h_gird_head = this.config.h_columns + 'px';
   }
 
   ngOnChanges() {
+    if (this.settings) {
+      Object.assign(this.config, this.settings);
+    }
+    this.databind();
+    this.pageChange();
+  }
+
+  /**
+   * 数据输入初始化绑定
+   */
+  databind(isSelectPage?) {
     if (this.source) {
+      if (!isSelectPage) {
+        this.currentPage = 1; //初始化
+        this.inputPage = "1";
+      }
+      this.totalItems = this.source.length;
+      this.totalPages = parseInt((this.totalItems / this.itemsPerPage).toString()) + (this.totalItems % this.itemsPerPage > 0 ? 1 : 0);
       let start: number = (this.currentPage - 1) * this.itemsPerPage;
       let end: number = start + this.itemsPerPage;
       this.sourceShow = this.source.slice(start, end);
-      this.totalItems = 300;
+    }
+  }
+
+  /**
+   * 分页数据显示
+   */
+  pageChange() {
+    this.pages = [];
+    for (let i = 0; i < this.totalPages && i < 10; i++) {
+      this.pages.push({ text: (i + 1) + '', number: i + 1, active: i == 0 });
     }
   }
   /**
@@ -80,7 +108,6 @@ export class FixTableComponent implements OnInit, OnChanges {
    * @param event 事件对象
    */
   scroll(event) {
-    //console.log(event, event.target.scrollTop);
     this.scrollTop = event.target.scrollTop;
     this.scrollLeft = event.target.scrollLeft;
   }
@@ -103,20 +130,81 @@ export class FixTableComponent implements OnInit, OnChanges {
     }
     this.sortEvent.emit({ field: column.field, bl_asc: bl_asc });
   }
-  //分页
-  pageChanged(event) {
-    console.log(event);
+
+  /**
+   * 选择要显示第几页
+   * @param num 要显示的页码数
+   * @param event 选择当前页的事件对象 
+   */
+  selectPage(num: Number, event?: Event) {
+    num = Number(num);
+    if (num < 0) {
+      num = 1;
+    }
+    if (num > this.totalPages) {
+      num = this.totalPages;
+    }
+    this.currentPage = Number(num);
+    this.inputPage = num.toString();
+    for (let pg of this.pages) {
+      if (pg.number == num) {
+        pg.active = true;
+      } else {
+        pg.active = false;
+      }
+    }
+    this.databind(true);
+    return false;
   }
 
+  /**
+   * 页码输入事件
+   * @param event 事件对象
+   */
+  keydown(event) {
+    if (event.keyCode == 13) {
+      this.selectPage(event.target.value);
+    }
+  }
+  /**
+   * 判断上一页和首页是否有效
+   */
+  noPrevious() {
+    return this.currentPage <= 1;
+  }
 
-  clickPageNum(){
-    
+  /**
+   * 判断下一页和尾页是否有效
+   */
+  noNext() {
+    return this.currentPage >= this.totalPages;
+  }
+  /**
+   * 页数选择按钮点击事件
+   * @param event 
+   */
+  clickPageNum(event) {
+    this.isShow = !this.isShow;
+    event.stopPropagation();
   }
   /**
    * 选择每页显示数量
    * @param num 每页数量
    */
-  selectPageNum(num) {
-    this.itemsPerPage = num;
+  selectPageNum(event) {
+    this.isShow = !this.isShow;
+    this.itemsPerPage = Number(event.target.text);
+    this.totalPages = parseInt((this.totalItems / this.itemsPerPage).toString()) + (this.totalItems % this.itemsPerPage > 0 ? 1 : 0);
+    this.pageChange();
+    this.databind();
+    return false;
+  }
+
+  /** 
+   * 监听document click事件
+  */
+  @HostListener('document:click', ['$event'])
+  onclick(event) {
+    this.isShow = false;
   }
 }

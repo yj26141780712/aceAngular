@@ -1,0 +1,1 @@
+export * from './src/app/fix-table/fix-table.module'; 
