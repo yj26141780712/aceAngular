@@ -59,14 +59,12 @@
                     &:nth-child(odd) {
                         background: #f9f9f9
                     }
-                    height: 40px;
                 }
             }
         }
         .datagird-loading {
             height: 100%;
             width: 100%;
-            // border: 1px solid #ddd;
             h2 {
                 display: block;
                 position: absolute;
@@ -182,11 +180,13 @@
                     vertical-align: middle;
                     color: #007bff;
                     background: rgba(255, 255, 255, 0);
+                    font-size: 14px;
                 }
                 ul {
                     li {
-                        .page-link {
+                        a {
                             color: #007bff;
+                            font-size: 14px;
                         }
                     }
                 }
@@ -203,23 +203,26 @@
                         border: 0;
                         background: rgba(255, 255, 255, 0);
                         //color: #007bff;
+                        padding: 7px 10px;
                     }
                 }
                 .active {
                     a {
-                        //color: #912b2b;
+                        color: #ffffff;
                         background: #007bff;
                     }
                 }
             }
             input {
-                width: 60px;
+                width: 50px; 
                 border-top-right-radius: 0;
                 border-bottom-right-radius: 0;
-                height: 33px;
+                height: 31px;
+                font-size: 14px;         
             }
             button {
-                height: 33px;
+                height: 31px;
+                padding: 6px 8px;
                 border-top-left-radius: 0;
                 border-bottom-left-radius: 0;
                 display: flex;
@@ -227,8 +230,8 @@
             }
         }
     }
+
+
+
+
     
-    .test {
-        margin-bottom: 0 !important;
-        color: black;
-    }

@@ -16,8 +16,11 @@ import { FixTableModule } from './fix-table/fix-table.module';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpModule,
-    FixTableModule 
+    FixTableModule,
+    BsDropdownModule.forRoot(),
+    PaginationModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]   

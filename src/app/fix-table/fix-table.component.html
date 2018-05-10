@@ -11,7 +11,7 @@
                                     <i class="fa" *ngIf="column.sort" [ngClass]="column.sortType?column.sortType:'fa-sort'" aria-hidden="true" (click)="sort(column)">
                                     </i>
                                 </td>
-                            </ng-container> 
+                            </ng-container>
                         </tr>
                     </thead>
                 </table>
@@ -21,7 +21,7 @@
             <div class="datagird-body-inner">
                 <table class="datagird-btable" [style.width]="config.w_gird_fixed">
                     <tbody>
-                        <tr *ngFor="let item of sourceShow" >
+                        <tr *ngFor="let item of sourceShow" [style.height]="config.h_gird_body_tr">
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="column.fixed" [style.width]="column.width+'px'">
                                     <div>{{ item[column.field] }}</div>
@@ -46,7 +46,7 @@
                                 <td *ngIf="!column.fixed" [style.width]="column.width+'px'">
                                     <div>{{column.title}}</div>
                                     <i class="fa" *ngIf="column.sort" [ngClass]="column.sortType?column.sortType:'fa-sort'" aria-hidden="true" (click)="sort(column)">
-                                        </i>
+                                    </i>
                                 </td>
                             </ng-container>
                         </tr>
@@ -57,7 +57,7 @@
         <div class="datagird-body" [style.height]="config.h_gird_body" (scroll)="scroll($event)">
             <table class="datagird-btable " [style.width]="config.w_gird_table">
                 <tbody>
-                    <tr *ngFor="let item of sourceShow">
+                    <tr *ngFor="let item of sourceShow" [style.height]="config.h_gird_body_tr">
                         <ng-container *ngFor="let column of config.columns">
                             <td *ngIf="!column.fixed" [style.width]="column.width+'px'">
                                 <div>{{ item[column.field] }}</div>
@@ -70,11 +70,11 @@
         <div class="datagird-footer">
         </div>
     </div>
-    <div class="datagird-loading" *ngIf="!source">
+    <div class="datagird-loading" *ngIf="!source"> 
         <h2>数据加载中</h2>
     </div>
 </div>
-<div class="datagird-page">
+<div class="datagird-page"> 
     <div class="page-left">
         <div>
             显示
@@ -119,13 +119,13 @@
 
             <li class="pagination-last page-item" [class.disabled]="noNext()">
                 <a class="page-link" href (click)="selectPage(totalPages, $event)">
-                     尾页
+                    尾页
                 </a>
             </li>
         </ul>
-        <input type="text" class="form-control" [(ngModel)]="inputPage" (keydown)="keydown($event)">
+        <input id="test" type="text" class="form-control" [(ngModel)]="inputPage" (keydown)="keydown($event)" (keypress)="keypress($event)">
         <button class="btn btn-primary" (click)="selectPage(inputPage, $event)">
-            <i class="fa fa-play" aria-hidden="true"></i>
+            <i class="fa fa-step-forward" aria-hidden="true"></i>
         </button>
     </div>
 </div>
