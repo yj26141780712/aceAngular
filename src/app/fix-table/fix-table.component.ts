@@ -161,22 +161,24 @@ export class FixTableComponent implements OnInit, OnChanges {
     //   numEnd = this.totalPages + 1;
     // }
     let numStart = 1;
-    let numEnd = this.maxSize + 1;  //扩展 使用maxSize+1
+    let numEnd = this.maxSize + 1;  //扩展 使用maxSize+1   10
     let numleft = parseInt((this.maxSize / 2).toString()) + 1;
     let numRight = this.maxSize - numleft - 1;
     if (isInit || this.currentPage <= numleft) {
       numEnd = this.totalPages >= numEnd - 1 ? numEnd : this.totalPages + 1;
     } else if (this.currentPage > numleft && (this.totalPages - this.currentPage) > numRight) {
       numStart = this.currentPage - (numleft - 1);
-      numEnd = this.currentPage + (this.maxSize - numleft-1); 
+      numEnd = this.currentPage + (this.maxSize - numleft + 1);
     } else if ((this.totalPages - this.currentPage) <= numRight) {
-      numStart = this.totalPages - (this.maxSize - 1); 
+      numStart = this.totalPages - (this.maxSize - 1);
       numEnd = this.totalPages + 1;
     }
     this.pages = [];
     for (let i = numStart; i < numEnd; i++) {
       this.pages.push({ text: i + '', number: i, active: i == this.currentPage });
     }
+
+    1.
   }
   /**
    * 选择要显示第几页

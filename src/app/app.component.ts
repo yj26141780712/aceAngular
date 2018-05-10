@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   settings: any;
   source: any[];
   constructor(private http: Http) {
-
+   
   }
 
   ngOnInit() {
@@ -32,36 +32,40 @@ export class AppComponent implements OnInit {
         { field: 's_company', title: '塑料厂', fixed: false, width: 150 }, 
       ]
     }
-
-    let _url = "http://192.168.2.229:8088/IMS/api/apideviceList.action";
-    this.http.get(_url).subscribe(res => {
-      let json = res.json();
-      if (json.code == 200) {
-        let data = json.obj;
-        var array = [];
-        for (var i = 0; i < data.length; i++) {
-          var item = { m_id: "", m_name: "", m_type: "", c_id: "", o_name: "", o_date: "", area: "", o_company: "", d_company: "", s_company: "", remarks: "", id: "", x: "", y: "" };
-          item.m_id = data[i].sn;
-          item.m_name = data[i].name;
-          item.m_type = data[i].modelName;
-          item.c_id = data[i].monitorid;
-          item.o_name = data[i].cpersonnel || '';
-          if (data[i].ddate != null) {
-            item.o_date = data[i].ddate.substring(0, 10);
-          }
-          item.area = data[i].areaName;
-          item.o_company = data[i].companyName;
-          item.d_company = data[i].proxyName;
-          item.s_company = data[i].factoryName;
-          item.id = data[i].id;
-          item.x = data[i].x;
-          item.y = data[i].y;
-          array.push(item);
-        }
-        this.source = [].concat(array);
-        console.log("test");
-      }
-    });
+    let array=[];
+    for(let i=0;i<130;i++){
+      array.push({m_id:i});
+    }
+    this.source = [].concat( this.source = [].concat(array));
+    // let _url = "http://192.168.2.229:8088/IMS/api/apideviceList.action";
+    // this.http.get(_url).subscribe(res => {
+    //   let json = res.json();
+    //   if (json.code == 200) {
+    //     let data = json.obj;
+    //     var array = [];
+    //     for (var i = 0; i < data.length; i++) {
+    //       var item = { m_id: "", m_name: "", m_type: "", c_id: "", o_name: "", o_date: "", area: "", o_company: "", d_company: "", s_company: "", remarks: "", id: "", x: "", y: "" };
+    //       item.m_id = data[i].sn;
+    //       item.m_name = data[i].name;
+    //       item.m_type = data[i].modelName;
+    //       item.c_id = data[i].monitorid;
+    //       item.o_name = data[i].cpersonnel || '';
+    //       if (data[i].ddate != null) {
+    //         item.o_date = data[i].ddate.substring(0, 10);
+    //       }
+    //       item.area = data[i].areaName;
+    //       item.o_company = data[i].companyName;
+    //       item.d_company = data[i].proxyName;
+    //       item.s_company = data[i].factoryName;
+    //       item.id = data[i].id;
+    //       item.x = data[i].x;
+    //       item.y = data[i].y;
+    //       array.push(item);
+    //     }
+    //     this.source = [].concat(array);
+    //     console.log("test");
+    //   }
+    // });
     // setTimeout(() => {
     //   let _url = "http://192.168.2.229:8088/IMS/api/apideviceList.action?companyId=400";
     //   this.http.get(_url).subscribe(res => {
