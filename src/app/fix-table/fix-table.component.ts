@@ -40,6 +40,7 @@ export class FixTableComponent implements OnInit, OnChanges {
   @Input() settings: any;
   @Input() source: any[];
   @Output() sortEvent = new EventEmitter<any>();
+  @Output() selectEvent = new EventEmitter<any>();
 
   scrollTop: number;
   scrollLeft: number;
@@ -125,6 +126,14 @@ export class FixTableComponent implements OnInit, OnChanges {
   }
 
   /**
+   * 行选择事件
+   * @param item 选中项
+   */
+  selectRow(item, index) {
+    console.log(item, index);
+    this.selectEvent.emit(item);
+  }
+  /**
    * 数据绑定 
    * @param isInit true 初始化 false 数据重新绑定
    */
@@ -164,21 +173,23 @@ export class FixTableComponent implements OnInit, OnChanges {
     let numEnd = this.maxSize + 1;  //扩展 使用maxSize+1   10
     let numleft = parseInt((this.maxSize / 2).toString()) + 1;
     let numRight = this.maxSize - numleft - 1;
-    if (isInit || this.currentPage <= numleft) {
+    console.log(this.totalPages, this.currentPage);
+    if (this.currentPage <= numleft) {
       numEnd = this.totalPages >= numEnd - 1 ? numEnd : this.totalPages + 1;
     } else if (this.currentPage > numleft && (this.totalPages - this.currentPage) > numRight) {
       numStart = this.currentPage - (numleft - 1);
       numEnd = this.currentPage + (this.maxSize - numleft + 1);
     } else if ((this.totalPages - this.currentPage) <= numRight) {
+
       numStart = this.totalPages - (this.maxSize - 1);
+      numStart = numStart < 1 ? 1 : numStart;
       numEnd = this.totalPages + 1;
+      console.log(numStart, numEnd);
     }
     this.pages = [];
     for (let i = numStart; i < numEnd; i++) {
       this.pages.push({ text: i + '', number: i, active: i == this.currentPage });
     }
-
-    1.
   }
   /**
    * 选择要显示第几页

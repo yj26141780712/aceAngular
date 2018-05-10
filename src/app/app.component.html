@@ -1,12 +1,9 @@
 The content
- <div style="height: 400px;width: 1000px">
-    <app-fix-table [settings]="settings" [source]="source" (sortEvent)="sortEvent($event)">
+<div style="height: 400px;width: 1000px">
+    <app-fix-table [settings]="settings" [source]="source" (sortEvent)="sortEvent($event)" (selectEvent)="selectEvent($event)">
     </app-fix-table>
-</div> 
+</div>
 
 <div>
     <input type="text">
 </div>
-
-
-

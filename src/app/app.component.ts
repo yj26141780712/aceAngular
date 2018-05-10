@@ -100,7 +100,7 @@ export class AppComponent implements OnInit {
   }
 
   sortEvent(event) {
-    //console.log(event);
+    console.log(event);
     this.source.sort((a, b) => {
       //console.log(a[column.field], b[column.field]);
       if (a[event.field] <= b[event.field]) {
@@ -111,14 +111,9 @@ export class AppComponent implements OnInit {
       }
     });
     console.log(1);
-    //console.log(this.source);
   }
 
-  totalItems: number = 200;
-  currentPage: number = 1;
-  itemsPerPage: number = 10;
-
-  pageChanged(event) {
-
+  selectEvent(item){ 
+      console.log(item);
   }
 }
