@@ -12,3 +12,5 @@ import { FormsModule } from '@angular/forms';
   exports: [FixTableComponent]
 })
 export class FixTableModule { }
+
+//test
