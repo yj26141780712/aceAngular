@@ -1,13 +1,13 @@
 <div class="datagird-search row" [style.height]='h_gird_search'>
-    <div class="col-md-6">
+    <div class="col-sm-4 col-md-4">
         显示第
         <span>{{beginNum}}</span>到
         <span>{{endNum}}</span>项结果
     </div>
-    <div class="col-md-6">
+    <div class="col-sm-8 col-md-8">
         <div class="datafilter form-inline">
             <label>Search:
-                <input type="" class="form-control input-sm" placeholder="" aria-controls="dynamic-table">
+                <input type="text" class="form-control input-sm" placeholder="" (keydown)="searchKeyDown($event)">
             </label>
         </div>
     </div>
@@ -20,7 +20,7 @@
                     <thead>
                         <tr [style.height]="h_gird_header">
                             <td *ngIf="isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
-                                <input type="checkbox" (click)="selectRow($event.target.checked)" [checked]="isAllCheck()">
+                                <input type="checkbox" (click)="selectAllRow($event.target.checked)" [checked]="isAllCheck()">
                             </td>
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="column.fixed" [style.width]="column.width+'px'">
@@ -38,9 +38,9 @@
             <div class="datagird-body-inner">
                 <table class="datagird-btable" [style.width]="w_gird_fixed">
                     <tbody>
-                        <tr *ngFor="let item of sourceShow;let i= index" [style.height]="h_gird_body_tr" (click)="selectRow(!item.checked,item)">
+                        <tr *ngFor="let item of sourceShow;let i= index" [style.height]="h_gird_body_tr" (click)="selectTr(i)">
                             <td *ngIf="isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
-                                <input type="checkbox" (click)="selectRow($event.target.checked,item)" [checked]="isCheck(item)">
+                                <input type="checkbox" (click)="selectOneRow($event,i)" [checked]="isCheck(i)">
                             </td>
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="column.fixed" [style.width]="column.width+'px'">
@@ -63,7 +63,7 @@
                     <thead>
                         <tr [style.height]="h_gird_header">
                             <td *ngIf="!isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
-                                <input type="checkbox" (click)="selectRow($event.target.checked)" [checked]="isAllCheck()">
+                                <input type="checkbox" (click)="selectAllRow($event.target.checked)" [checked]="isAllCheck()">
                             </td>
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="!column.fixed" [style.width]="column.width+'px'">
@@ -72,6 +72,9 @@
                                     </i>
                                 </td>
                             </ng-container>
+                            <td [style.width]="opWidth+'px'">
+                                <div>功能区</div>
+                            </td>
                         </tr>
                     </thead>
                 </table>
@@ -80,15 +83,21 @@
         <div class="datagird-body" [style.height]="h_gird_body" (scroll)="scroll($event)">
             <table class="datagird-btable " [style.width]="w_gird_table">
                 <tbody>
-                    <tr *ngFor="let item of sourceShow;let i = index" [style.height]="h_gird_body_tr" (click)="selectRow(item,i)">
+                    <tr *ngFor="let item of sourceShow;let i = index" [style.height]="h_gird_body_tr" (click)="selectTr(i)">
                         <td *ngIf="!isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
-                            <input type="checkbox" (click)="selectRow($event.target.checked,item)" [checked]="isCheck(item)">
+                            <input type="checkbox" (click)="selectOneRow($event,i)" [checked]="isCheck(i)">
                         </td>
                         <ng-container *ngFor="let column of config.columns">
                             <td *ngIf="!column.fixed" [style.width]="column.width+'px'">
                                 <div>{{ item[column.field] }}</div>
                             </td>
                         </ng-container>
+                        <td [style.width]="opWidth+'px'">
+                            <div class="operation">
+                                <a href *ngFor="let op of config.operation" class="fa" [ngClass]="op.iconClass" [title]="op.title" (click)="opClick($event,op)">
+                                </a>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>

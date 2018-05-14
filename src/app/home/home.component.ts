@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
   settings: any;
   source: any[];
 
-  constructor(private http:Http) { }
+  constructor(private http: Http) { }
 
   ngOnInit() {
 
@@ -19,16 +19,21 @@ export class HomeComponent implements OnInit {
       headTrHeight: 40,
       bodyTrHeight: 30,
       columns: [
-        { field: 'm_id', title: '注塑机编号', fixed: false, sort: true, width: 200 },
-        { field: 'm_name', title: '注塑机名称', fixed: false, width: 100 },
-        { field: 'm_type', title: '注塑机类型', fixed: false, width: 100 },
+        { field: 'sn', title: '序号', fixed: true, width: 50 },
+        { field: 'm_id', title: '注塑机编号', fixed: true, sort: true, width: 200 },
+        { field: 'm_name', title: '注塑机名称', fixed: true, width: 100 },
+        { field: 'm_type', title: '注塑机类型', fixed: true, width: 100 },
         { field: 'c_id', title: '采集器编号', fixed: false, width: 100 },
         { field: 'o_name', title: '出厂调试人员', fixed: false, width: 160 },
-        { field: 'o_date', title: '出厂日期', fixed: false,sort: true, width: 100 },
-        { field: 'area', title: '所属片区', fixed: false, width: 100 },
-        { field: 'o_company', title: '出厂公司', fixed: false, width: 100 },
-        { field: 'd_company', title: '代理公司', fixed: false, width: 100 },
+        { field: 'o_date', title: '出厂日期', fixed: false, sort: true, width: 200 },
+        { field: 'area', title: '所属片区', fixed: false, width: 200 },
+        { field: 'o_company', title: '出厂公司', fixed: false, width: 200 },
+        { field: 'd_company', title: '代理公司', fixed: false, width: 160 },
         { field: 's_company', title: '塑料厂', fixed: false, width: 150 },
+      ],
+      operation: [
+        { type: 'edit', iconClass: 'fa fa-pencil', title: "编辑" },
+        { type: 'download', iconClass: 'fa fa-trash', title: "删除" },
       ]
     }
     // let array=[];
@@ -43,7 +48,8 @@ export class HomeComponent implements OnInit {
         let data = json.obj;
         var array = [];
         for (var i = 0; i < data.length; i++) {
-          var item = { m_id: "", m_name: "", m_type: "", c_id: "", o_name: "", o_date: "", area: "", o_company: "", d_company: "", s_company: "", remarks: "", id: "", x: "", y: "" };
+          var item = { sn: "", m_id: "", m_name: "", m_type: "", c_id: "", o_name: "", o_date: "", area: "", o_company: "", d_company: "", s_company: "", remarks: "", id: "", x: "", y: "" };
+          item.sn = (i + 1) + '';
           item.m_id = data[i].sn;
           item.m_name = data[i].name;
           item.m_type = data[i].modelName;
@@ -78,10 +84,22 @@ export class HomeComponent implements OnInit {
         return event.bl_asc ? -1 : 1;
       }
     });
-    console.log(1);
   }
 
   selectEvent(item) {
     console.log(item);
+  }
+
+  rowOperation(op) {
+    console.log(op);
+    switch (op.type) {
+      case 'add':
+        this.edit();
+        break;
+    }
+  }
+
+  edit(){
+
   }
 }

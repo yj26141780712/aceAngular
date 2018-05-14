@@ -19,7 +19,6 @@
                 padding: 0;
                 line-height: 28px;
                 height: 28px;
-                font-size: 14px;
                 overflow: hidden;
                 white-space: nowrap;
             }
@@ -42,11 +41,11 @@
                         cursor: pointer;
                         color: #307ecc;
                         font-weight: 700;
+                        font-size: 14px;
                         //text-indent: 0.5rem; //文字缩进 
                         i {
                             float: right;
                             margin-top: 6px;
-                            font-size: 16px;
                         }
                     }
                 }
@@ -57,6 +56,9 @@
                 tr {
                     &:nth-child(odd) {
                         background: #f9f9f9
+                    }
+                    td{
+                      font-size: 14px;     
                     }
                 }
             }
@@ -138,6 +140,16 @@
                 table-layout: fixed;
                 tr {
                     @include tr()
+                    .operation{
+                        display: flex;
+                        align-items:center;
+                        a{
+                          height: 14px;
+                          line-height: 14px;
+                          cursor: pointer;
+                          margin: 0 5px;
+                        }
+                    }
                 }
                 margin: 0;
             }
