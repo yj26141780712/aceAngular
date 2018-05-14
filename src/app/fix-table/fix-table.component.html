@@ -1,10 +1,27 @@
-<div class="datagird-view">
-    <div class="datagird-view1" [style.width]="config.w_gird_fixed" [style.height]="config.h_gird_view">
-        <div class="datagird-header" [style.height]="config.h_gird_header">
+<div class="datagird-search row" [style.height]='h_gird_search'>
+    <div class="col-md-6">
+        显示第
+        <span>{{beginNum}}</span>到
+        <span>{{endNum}}</span>项结果
+    </div>
+    <div class="col-md-6">
+        <div class="datafilter form-inline">
+            <label>Search:
+                <input type="" class="form-control input-sm" placeholder="" aria-controls="dynamic-table">
+            </label>
+        </div>
+    </div>
+</div>
+<div class="datagird-view" [style.height]='h_gird_view'>
+    <div class="datagird-view1" [style.width]="w_gird_fixed">
+        <div class="datagird-header" [style.height]="h_gird_header">
             <div class="datagird-header-inner">
-                <table class="datagird-htable" [style.width]="config.w_gird_fixed">
+                <table class="datagird-htable" [style.width]="w_gird_fixed">
                     <thead>
-                        <tr [style.height]="config.h_gird_header">
+                        <tr [style.height]="h_gird_header">
+                            <td *ngIf="isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
+                                <input type="checkbox" (click)="selectRow($event.target.checked)" [checked]="isAllCheck()">
+                            </td>
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="column.fixed" [style.width]="column.width+'px'">
                                     <div>{{column.title}}</div>
@@ -17,11 +34,14 @@
                 </table>
             </div>
         </div>
-        <div class="datagird-body" [style.height]="config.h_gird_body" [scrollTop]="scrollTop">
+        <div class="datagird-body" [style.height]="h_gird_body" [scrollTop]="scrollTop">
             <div class="datagird-body-inner">
-                <table class="datagird-btable" [style.width]="config.w_gird_fixed">
+                <table class="datagird-btable" [style.width]="w_gird_fixed">
                     <tbody>
-                        <tr *ngFor="let item of sourceShow;let i= index" [style.height]="config.h_gird_body_tr" (click)="selectRow(item,i)">
+                        <tr *ngFor="let item of sourceShow;let i= index" [style.height]="h_gird_body_tr" (click)="selectRow(!item.checked,item)">
+                            <td *ngIf="isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
+                                <input type="checkbox" (click)="selectRow($event.target.checked,item)" [checked]="isCheck(item)">
+                            </td>
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="column.fixed" [style.width]="column.width+'px'">
                                     <div>{{ item[column.field]}}</div>
@@ -36,12 +56,15 @@
 
         </div>
     </div>
-    <div class="datagird-view2" [style.left]="config.w_gird_fixed" [style.height]="config.h_gird_view">
-        <div class="datagird-header" [style.height]="config.h_gird_header" [scrollLeft]="scrollLeft">
+    <div class="datagird-view2" [style.left]="w_gird_fixed">
+        <div class="datagird-header" [style.height]="h_gird_header" [scrollLeft]="scrollLeft">
             <div class="datagird-header-inner">
-                <table class="datagird-htable" [style.height]="config.h_gird_header" [style.width]="config.w_gird_table">
+                <table class="datagird-htable" [style.height]="h_gird_header" [style.width]="w_gird_table">
                     <thead>
-                        <tr [style.height]="config.h_gird_header">
+                        <tr [style.height]="h_gird_header">
+                            <td *ngIf="!isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
+                                <input type="checkbox" (click)="selectRow($event.target.checked)" [checked]="isAllCheck()">
+                            </td>
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="!column.fixed" [style.width]="column.width+'px'">
                                     <div>{{column.title}}</div>
@@ -54,10 +77,13 @@
                 </table>
             </div>
         </div>
-        <div class="datagird-body" [style.height]="config.h_gird_body" (scroll)="scroll($event)">
-            <table class="datagird-btable " [style.width]="config.w_gird_table">
+        <div class="datagird-body" [style.height]="h_gird_body" (scroll)="scroll($event)">
+            <table class="datagird-btable " [style.width]="w_gird_table">
                 <tbody>
-                    <tr *ngFor="let item of sourceShow;let i = index" [style.height]="config.h_gird_body_tr" (click)="selectRow(item,i)">
+                    <tr *ngFor="let item of sourceShow;let i = index" [style.height]="h_gird_body_tr" (click)="selectRow(item,i)">
+                        <td *ngIf="!isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
+                            <input type="checkbox" (click)="selectRow($event.target.checked,item)" [checked]="isCheck(item)">
+                        </td>
                         <ng-container *ngFor="let column of config.columns">
                             <td *ngIf="!column.fixed" [style.width]="column.width+'px'">
                                 <div>{{ item[column.field] }}</div>
@@ -74,7 +100,7 @@
         <h2>数据加载中</h2>
     </div>
 </div>
-<div class="datagird-page">
+<div class="datagird-page" [style.height]='h_gird_page'>
     <div class="page-left">
         <div>
             显示
@@ -84,7 +110,7 @@
                 {{itemsPerPage}}
                 <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu dropUpShow" [class.show]="isShow">
+            <ul class="dropdown-menu dropUpShow" [class.show]="isPageSelectShow">
                 <li *ngFor="let pageNum of pageNums">
                     <a class="dropdown-item" href="#" (click)="selectPageNum($event)">{{pageNum}}</a>
                 </li>

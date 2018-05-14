@@ -2,7 +2,6 @@
     * {
         box-sizing: border-box;
     }
-    
     @mixin tr() {
         td {
             overflow: hidden;
@@ -32,7 +31,7 @@
         overflow: hidden;
         border: 1px solid #ddd;
         width: 100%;
-        height: calc(100% - 50px);
+        //height: calc(100% - 90px);
         .datagird-header {
             table {
                 background-color: #fff;
@@ -154,7 +153,7 @@
     }
     
     .datagird-page {
-        height: 45px;
+        //height: 45px;
         padding: 5px 3px;
         display: flex;
         align-items: center;
@@ -167,8 +166,8 @@
         .page-left {
             display: flex;
             align-items: center;
-            color: #007bff;
-            .btn-group {
+            //color: #007bff;
+            .btn-group { 
                 .dropUpShow {
                     left: 0px;
                     right: auto;
@@ -178,14 +177,14 @@
                 button {
                     //height: 36px;
                     vertical-align: middle;
-                    color: #007bff;
+                    //color: #007bff;
                     background: rgba(255, 255, 255, 0);
                     font-size: 14px;
                 }
                 ul {
                     li {
                         a {
-                            color: #007bff;
+                            //color: #007bff;
                             font-size: 14px;
                         }
                     }
@@ -218,7 +217,8 @@
                 border-top-right-radius: 0;
                 border-bottom-right-radius: 0;
                 height: 31px;
-                font-size: 14px;         
+                font-size: 14px;
+
             }
             button {
                 height: 31px;
@@ -228,6 +228,34 @@
                 display: flex;
                 align-items: center;
             }
+        }
+    }
+
+    .datagird-search{
+        //height: 45px;
+        line-height: 30px;
+        border: 1px solid #ddd;
+        border-bottom: 0;
+        background: linear-gradient(to bottom, #fcfcfc 20%, #eee 100%);
+        padding: 7px 0; 
+        font-size: 14px;
+        height: 45px;
+        margin: 0;
+        .datafilter{
+            display: flex;
+            justify-content: flex-end;
+            .input-sm{
+                height: 30px;
+                line-height: 30px;
+            }            
+        }      
+    }
+    .datagird-page,.datagird-search{
+        *:focus{
+            box-shadow: none;
+        }
+        *{
+            user-select: none;
         }
     }
 
