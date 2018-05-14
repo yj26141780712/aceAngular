@@ -89,8 +89,8 @@ export class FixTableComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.tableInit();
-    this.databind(true);
-    this.pageChange(true);
+    this.databind(true,true);
+    this.pageChange();
   }
 
   /*-------------------------------------表格-----------------------------------*/
@@ -144,7 +144,7 @@ export class FixTableComponent implements OnInit, OnChanges {
     }
     this.sortEvent.emit({ field: column.field, bl_asc: column.sortType == "fa-sort-asc" });
     this.databind(true);
-    this.pageChange(true);
+    this.pageChange();
   }
 
   /**
@@ -223,17 +223,20 @@ export class FixTableComponent implements OnInit, OnChanges {
   /**
    * 数据绑定 
    * @param isInit true 初始化 false 数据重新绑定
+   * @param isSearch 
    */
-  databind(isInit?) {
-    if (isInit) {
+  databind(isResetPage?, isInit?) {
+    if (isResetPage) {
       this.currentPage = 1; //初始化
       this.inputPage = this.currentPage + '';
     }
-    console.log(this.sourceSearch);
-    if (this.sourceSearch.length == 0 && this.source) {
-      this.sourceSearch = this.source;
+    if (isInit) {
+      if (this.source) {
+        this.sourceSearch = this.source;
+      } else {
+        this.sourceSearch =[]
+      }
     }
-    console.log(this.sourceSearch);
     this.totalItems = this.sourceSearch.length;
     this.totalPages = parseInt((this.totalItems / this.itemsPerPage).toString()) + (this.totalItems % this.itemsPerPage > 0 ? 1 : 0);
     let start: number = (this.currentPage - 1) * this.itemsPerPage;
@@ -259,9 +262,8 @@ export class FixTableComponent implements OnInit, OnChanges {
 
   /**
    * 分页页码显示
-   * @param isSelectPage true 初始化 false 分页控件页面重新绑定
    */
-  pageChange(isInit?) {
+  pageChange() {
     // let numStart = 1;
     // let numEnd = 11;  //扩展 使用maxSize+1
     // if (isInit || this.currentPage <= 6) {  
@@ -369,7 +371,7 @@ export class FixTableComponent implements OnInit, OnChanges {
     this.itemsPerPage = Number(event.target.text);
     // this.totalPages = parseInt((this.totalItems / this.itemsPerPage).toString()) + (this.totalItems % this.itemsPerPage > 0 ? 1 : 0);
     this.databind(true);
-    this.pageChange(true);
+    this.pageChange();
     return false;
   }
 
@@ -386,8 +388,12 @@ export class FixTableComponent implements OnInit, OnChanges {
    * 搜素输入框keydown事件
    * @param event 事件对象
    */
-  searchKeyDown(event) {
-    if (event.keyCode == 13) {
+  searchEvent(event) {
+    //console.log(event.type);
+    if (event.type == "keydown" && event.keyCode == 13) {
+      this.search(event.target.value);
+    }
+    if (event.type == "blur") {
       this.search(event.target.value);
     }
   }
@@ -397,9 +403,16 @@ export class FixTableComponent implements OnInit, OnChanges {
    * @param value 搜索输入框值 
    */
   search(value) {
-    this.sourceSearch = this.source.filter(item => item["m_id"].indexOf(value) > -1);
-    console.log(this.sourceSearch);
+    //this.sourceSearch = this.source.filter(item => item["m_id"].indexOf(value.trim()) > -1);
+    let arr = [];
+    this.source.forEach(item => {
+      if (item["m_id"].indexOf(value.trim()) > -1) {
+        arr.push(item);
+      }
+    });
+    console.log(arr);
+    this.sourceSearch = arr;
     this.databind(true);
-    //this.pageChange(true);
+    this.pageChange();
   }
 }

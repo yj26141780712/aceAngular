@@ -7,7 +7,7 @@
     <div class="col-sm-8 col-md-8">
         <div class="datafilter form-inline">
             <label>Search:
-                <input type="text" class="form-control input-sm" placeholder="" (keydown)="searchKeyDown($event)">
+                <input type="text" class="form-control input-sm" placeholder="" (keydown)="searchEvent($event)" (blur)="searchEvent($event)">
             </label>
         </div>
     </div>
