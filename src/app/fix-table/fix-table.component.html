@@ -7,7 +7,7 @@
     <div class="col-sm-8 col-md-8">
         <div class="datafilter form-inline">
             <label>Search:
-                <input type="text" class="form-control input-sm" placeholder="" (keydown)="searchEvent($event)" (blur)="searchEvent($event)">
+                <input type="text" class="form-control input-sm" placeholder="" [(ngModel)]="searchInput" (keydown)="searchEvent($event)" (blur)="searchEvent($event)">
             </label>
         </div>
     </div>
@@ -21,6 +21,9 @@
                         <tr [style.height]="h_gird_header">
                             <td *ngIf="isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
                                 <input type="checkbox" (click)="selectAllRow($event.target.checked)" [checked]="isAllCheck()">
+                            </td>
+                            <td *ngIf="isfixed&&isfunction" [style.width]="w_op+'px'">
+                                <div>功能区</div>
                             </td>
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="column.fixed" [style.width]="column.width+'px'">
@@ -42,6 +45,12 @@
                             <td *ngIf="isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
                                 <input type="checkbox" (click)="selectOneRow($event,i)" [checked]="isCheck(i)">
                             </td>
+                            <td *ngIf="isfixed&&isfunction" [style.width]="w_op+'px'">
+                                <div class="operation">
+                                    <a href *ngFor="let op of config.operation" class="fa" [ngClass]="op.iconClass" [title]="op.title" (click)="opClick($event,op,item)">
+                                    </a>
+                                </div>
+                            </td>
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="column.fixed" [style.width]="column.width+'px'">
                                     <div>{{ item[column.field]}}</div>
@@ -58,12 +67,15 @@
     </div>
     <div class="datagird-view2" [style.left]="w_gird_fixed">
         <div class="datagird-header" [style.height]="h_gird_header" [scrollLeft]="scrollLeft">
-            <div class="datagird-header-inner">
+            <div class="datagird-header-inner" [style.width]="w_gird2_inner_header">
                 <table class="datagird-htable" [style.height]="h_gird_header" [style.width]="w_gird_table">
                     <thead>
                         <tr [style.height]="h_gird_header">
                             <td *ngIf="!isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
                                 <input type="checkbox" (click)="selectAllRow($event.target.checked)" [checked]="isAllCheck()">
+                            </td>
+                            <td *ngIf="!isfixed&&isfunction" [style.width]="w_op+'px'">
+                                <div>功能区</div>
                             </td>
                             <ng-container *ngFor="let column of config.columns">
                                 <td *ngIf="!column.fixed" [style.width]="column.width+'px'">
@@ -72,9 +84,6 @@
                                     </i>
                                 </td>
                             </ng-container>
-                            <td [style.width]="opWidth+'px'">
-                                <div>功能区</div>
-                            </td>
                         </tr>
                     </thead>
                 </table>
@@ -87,17 +96,17 @@
                         <td *ngIf="!isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
                             <input type="checkbox" (click)="selectOneRow($event,i)" [checked]="isCheck(i)">
                         </td>
+                        <td *ngIf="!isfixed&&isfunction" [style.width]="w_op+'px'">
+                            <div class="operation">
+                                <a href *ngFor="let op of config.operation" class="fa" [ngClass]="op.iconClass" [title]="op.title" (click)="opClick($event,op,item)">
+                                </a>
+                            </div>
+                        </td>
                         <ng-container *ngFor="let column of config.columns">
                             <td *ngIf="!column.fixed" [style.width]="column.width+'px'">
                                 <div>{{ item[column.field] }}</div>
                             </td>
                         </ng-container>
-                        <td [style.width]="opWidth+'px'">
-                            <div class="operation">
-                                <a href *ngFor="let op of config.operation" class="fa" [ngClass]="op.iconClass" [title]="op.title" (click)="opClick($event,op)">
-                                </a>
-                            </div>
-                        </td>
                     </tr>
                 </tbody>
             </table>

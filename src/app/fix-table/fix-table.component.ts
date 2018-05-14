@@ -46,7 +46,9 @@ export class FixTableComponent implements OnInit, OnChanges {
   w_gird_table = ''; //非固定列总宽度
   w_checkbox = 50; // 勾选列宽度
   isfixed: boolean = false; //是否存在固定列
-  opWidth = 80; // 工作操作区宽度
+  isfunction: boolean = false;
+  w_gird2_inner_header = '10000px';
+  w_op = 30; // 工作操作区宽度
 
   @Input() settings: any;
   @Input() source: Array<any> = [];
@@ -79,6 +81,8 @@ export class FixTableComponent implements OnInit, OnChanges {
 
   //搜索
   sourceSearch: Array<any> = [];
+  searchInput: string = '';
+
   constructor() {
 
   }
@@ -89,7 +93,7 @@ export class FixTableComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.tableInit();
-    this.databind(true,true);
+    this.databind(true, true);
     this.pageChange();
   }
 
@@ -112,14 +116,22 @@ export class FixTableComponent implements OnInit, OnChanges {
         w_gird_table += col.width;
       }
     }
-
+    if (this.config.operation.length > 0) {
+      this.isfunction = true;
+      this.config.operation.forEach(() => {
+        this.w_op += 20;
+      })
+    }
     //计算高度
     this.h_gird_body_tr = this.config.bodyTrHeight + 'px';
     this.h_gird_header_tr = this.config.headTrHeight + 'px';
     this.h_gird_header = this.config.headTrHeight + 'px'; // 多级表头时需要重新计算 
     //计算宽度
-    this.w_gird_fixed = (w_gird_fixed + (this.isfixed ? this.w_checkbox : 0)) + 'px';
-    this.w_gird_table = (w_gird_table + (this.isfixed ? 0 : this.w_checkbox)) + this.opWidth + 'px';
+    this.w_gird_fixed = (w_gird_fixed + (this.isfixed ? this.w_checkbox + (this.isfunction ? this.w_op : 0) : 0)) + 'px';
+    this.w_gird_table = (w_gird_table + (this.isfixed ? 0 : this.w_checkbox + (this.isfunction ? 0 : this.w_op))) + 'px';
+    // let reg = new RegExp(/^[0-9]+%$/);
+    // this.w_gird_table = reg.test(this.config.width) ? this.config.width : this.w_gird_table;
+    // this.w_gird2_inner_header = reg.test(this.config.width) ? this.config.width : this.w_gird2_inner_header;
 
   }
 
@@ -142,7 +154,21 @@ export class FixTableComponent implements OnInit, OnChanges {
     } else {
       column.sortType = "fa-sort-asc";
     }
-    this.sortEvent.emit({ field: column.field, bl_asc: column.sortType == "fa-sort-asc" });
+    console.log(this.sortEvent);
+    if (this.sortEvent.observers.length > 0) { //使用自定义排序 接口返回排序字段和排序方式（asc:true 升序）
+      this.sortEvent.emit({ field: column.field, asc: column.sortType == "fa-sort-asc" });
+      this.search(this.searchInput);
+    } else {
+      this.source.sort((a, b) => {
+        if (a[column.field] <= b[column.field]) {
+          return column.sortType == "fa-sort-asc" ? 1 : -1;
+        }
+        if (a[column.field] > b[column.field]) {
+          return column.sortType == "fa-sort-asc" ? -1 : 1;
+        }
+      });
+      this.search(this.searchInput);
+    }
     this.databind(true);
     this.pageChange();
   }
@@ -234,7 +260,7 @@ export class FixTableComponent implements OnInit, OnChanges {
       if (this.source) {
         this.sourceSearch = this.source;
       } else {
-        this.sourceSearch =[]
+        this.sourceSearch = []
       }
     }
     this.totalItems = this.sourceSearch.length;
@@ -252,8 +278,9 @@ export class FixTableComponent implements OnInit, OnChanges {
    * 功能区点击事件
    * @param op 操作事件对象
    */
-  opClick(event: Event, op) {
+  opClick(event: Event, op, item) {
     event.stopPropagation();
+    op.item = item;
     this.rowOperation.emit(op);
     return false;
   }
@@ -404,15 +431,23 @@ export class FixTableComponent implements OnInit, OnChanges {
    */
   search(value) {
     //this.sourceSearch = this.source.filter(item => item["m_id"].indexOf(value.trim()) > -1);
-    let arr = [];
-    this.source.forEach(item => {
-      if (item["m_id"].indexOf(value.trim()) > -1) {
-        arr.push(item);
-      }
-    });
-    console.log(arr);
-    this.sourceSearch = arr;
-    this.databind(true);
-    this.pageChange();
+    if (value.length > 0) {
+      let arr = [];
+      this.source.forEach(item => {
+        let bl = false;
+        for (let col of this.config.columns) {
+          let colVal = item[col.field] != undefined ? item[col.field].toString() : '';
+          bl = colVal.includes(value.trim());
+          if (bl) {
+            arr.push(item);
+            break;
+          }
+        }
+      });
+      this.sourceSearch = [];
+      if (arr.length > 0) this.sourceSearch = arr;
+      this.databind(true);
+      this.pageChange();
+    }
   }
 }

@@ -2,7 +2,18 @@
     * {
         box-sizing: border-box;
     }
+    
     @mixin tr() {
+        .operation {
+            display: flex;
+            align-items: center;
+            a {
+                height: 14px;
+                line-height: 14px;
+                cursor: pointer;
+                margin: 0 5px;
+            }
+        }
         td {
             overflow: hidden;
             border-width: 0 1px 1px 0;
@@ -38,12 +49,13 @@
                     height: 45px;
                     background: linear-gradient(to bottom, #fcfcfc 20%, #eee 100%);
                     td {
-                        cursor: pointer;
+                        //cursor: pointer;
                         color: #307ecc;
                         font-weight: 700;
                         font-size: 14px;
                         //text-indent: 0.5rem; //文字缩进 
                         i {
+                            cursor: pointer;
                             float: right;
                             margin-top: 6px;
                         }
@@ -57,8 +69,8 @@
                     &:nth-child(odd) {
                         background: #f9f9f9
                     }
-                    td{
-                      font-size: 14px;     
+                    td {
+                        font-size: 14px;
                     }
                 }
             }
@@ -122,8 +134,9 @@
             //height:45px;
             overflow: hidden;
             .datagird-header-inner {
-                width: 10000px;
+                //width: 10000px;
                 .datagird-htable {
+                    // min-width: 100%;
                     table-layout: fixed;
                     tr {
                         @include tr();
@@ -137,19 +150,10 @@
             //height: calc(100% - 45px);
             //height: 100%;
             .datagird-btable {
+                //min-width: 100%;
                 table-layout: fixed;
                 tr {
                     @include tr()
-                    .operation{
-                        display: flex;
-                        align-items:center;
-                        a{
-                          height: 14px;
-                          line-height: 14px;
-                          cursor: pointer;
-                          margin: 0 5px;
-                        }
-                    }
                 }
                 margin: 0;
             }
@@ -179,7 +183,7 @@
             display: flex;
             align-items: center;
             //color: #007bff;
-            .btn-group { 
+            .btn-group {
                 .dropUpShow {
                     left: 0px;
                     right: auto;
@@ -225,12 +229,11 @@
                 }
             }
             input {
-                width: 50px; 
+                width: 50px;
                 border-top-right-radius: 0;
                 border-bottom-right-radius: 0;
                 height: 31px;
                 font-size: 14px;
-
             }
             button {
                 height: 31px;
@@ -242,36 +245,33 @@
             }
         }
     }
-
-    .datagird-search{
+    
+    .datagird-search {
         //height: 45px;
         line-height: 30px;
         border: 1px solid #ddd;
         border-bottom: 0;
         background: linear-gradient(to bottom, #fcfcfc 20%, #eee 100%);
-        padding: 7px 0; 
+        padding: 7px 0;
         font-size: 14px;
         height: 45px;
         margin: 0;
-        .datafilter{
+        .datafilter {
             display: flex;
             justify-content: flex-end;
-            .input-sm{
+            .input-sm {
                 height: 30px;
                 line-height: 30px;
-            }            
-        }      
+            }
+        }
     }
-    .datagird-page,.datagird-search{
-        *:focus{
+    
+    .datagird-page,
+    .datagird-search {
+        *:focus {
             box-shadow: none;
         }
-        *{
+        * {
             user-select: none;
         }
     }
-
-
-
-
-    
