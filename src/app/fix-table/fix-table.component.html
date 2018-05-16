@@ -19,7 +19,7 @@
                 <table class="datagird-htable" [style.width]="w_gird_fixed">
                     <thead>
                         <tr [style.height]="h_gird_header">
-                            <td *ngIf="isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
+                            <td *ngIf="isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'" >
                                 <input type="checkbox" (click)="selectAllRow($event.target.checked)" [checked]="isAllCheck()">
                             </td>
                             <td *ngIf="isfixed&&isfunction" [style.width]="w_op+'px'">
@@ -41,7 +41,7 @@
             <div class="datagird-body-inner">
                 <table class="datagird-btable" [style.width]="w_gird_fixed">
                     <tbody>
-                        <tr *ngFor="let item of sourceShow;let i= index" [style.height]="h_gird_body_tr" (click)="selectTr(i)">
+                        <tr *ngFor="let item of sourceShow;let i= index" [class.hoverShow]="i==i_hover&&!isCheck(i)" [class.hoverActiveShow]="i==i_hover&&isCheck(i)" [class.active]="isCheck(i)" [style.height]="h_gird_body_tr" (click)="selectTr(i)" (mouseover)="mouseoverTr(i)" (mouseout)="mouseoutTr(i)" >
                             <td *ngIf="isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
                                 <input type="checkbox" (click)="selectOneRow($event,i)" [checked]="isCheck(i)">
                             </td>
@@ -67,7 +67,7 @@
     </div>
     <div class="datagird-view2" [style.left]="w_gird_fixed">
         <div class="datagird-header" [style.height]="h_gird_header" [scrollLeft]="scrollLeft">
-            <div class="datagird-header-inner" [style.width]="w_gird2_inner_header">
+            <div class="datagird-header-inner">
                 <table class="datagird-htable" [style.height]="h_gird_header" [style.width]="w_gird_table">
                     <thead>
                         <tr [style.height]="h_gird_header">
@@ -92,7 +92,7 @@
         <div class="datagird-body" [style.height]="h_gird_body" (scroll)="scroll($event)">
             <table class="datagird-btable " [style.width]="w_gird_table">
                 <tbody>
-                    <tr *ngFor="let item of sourceShow;let i = index" [style.height]="h_gird_body_tr" (click)="selectTr(i)">
+                    <tr *ngFor="let item of sourceShow;let i = index" [class.hoverShow]="i==i_hover" [class.hoverActiveShow]="i==i_hover&&isCheck(i)" [class.active]="isCheck(i)" [style.height]="h_gird_body_tr" (click)="selectTr(i)" (mouseover)="mouseoverTr(i)" (mouseout)="mouseoutTr(i)">
                         <td *ngIf="!isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
                             <input type="checkbox" (click)="selectOneRow($event,i)" [checked]="isCheck(i)">
                         </td>

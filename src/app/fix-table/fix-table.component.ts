@@ -1,6 +1,7 @@
 import { element } from 'protractor';
 import { Component, OnInit, Input, Output, EventEmitter, HostListener, OnChanges } from '@angular/core';
 import { Http } from '@angular/http';
+import { POINT_CONVERSION_HYBRID } from 'constants';
 
 @Component({
   selector: 'app-fix-table',
@@ -47,9 +48,11 @@ export class FixTableComponent implements OnInit, OnChanges {
   w_checkbox = 50; // 勾选列宽度
   isfixed: boolean = false; //是否存在固定列
   isfunction: boolean = false;
+  i_hover = 0;
   w_gird2_inner_header = '10000px';
   w_op = 30; // 工作操作区宽度
 
+  @Input() gwidth: number;
   @Input() settings: any;
   @Input() source: Array<any> = [];
   @Output() sortEvent = new EventEmitter<any>();
@@ -116,19 +119,37 @@ export class FixTableComponent implements OnInit, OnChanges {
         w_gird_table += col.width;
       }
     }
+
     if (this.config.operation.length > 0) {
       this.isfunction = true;
+      this.w_op = 30;
       this.config.operation.forEach(() => {
         this.w_op += 20;
       })
     }
+    let w_cf = this.w_checkbox + (this.isfunction ? this.w_op : 0) //选择列和功能区的宽度
+
+    //当table设置宽度不足容器宽度时自动补全宽度
+    if (this.gwidth && this.gwidth > w_gird_fixed + w_gird_table + w_cf) {
+      let w_dif = this.gwidth - w_gird_fixed - w_gird_table - w_cf - 20; //20 去掉纵向滚动条宽度 避免产生宽度过长产生横向滚动条
+      let every = w_dif / this.config.columns.length; //每个标题列应该增加的宽度
+      this.config.columns.forEach(col => {
+        col.width = col.width + every;
+        if (col.fixed) {
+          w_gird_fixed += every;
+        } else {
+          w_gird_table += every;
+        }
+      });
+    }
     //计算高度
-    this.h_gird_body_tr = this.config.bodyTrHeight + 'px';
-    this.h_gird_header_tr = this.config.headTrHeight + 'px';
-    this.h_gird_header = this.config.headTrHeight + 'px'; // 多级表头时需要重新计算 
+    this.h_gird_body_tr = `${this.config.bodyTrHeight}px`;
+    this.h_gird_body = `calc(100% - ${this.config.headTrHeight}px)`;
+    this.h_gird_header_tr = `${this.config.headTrHeight}px`;
+    this.h_gird_header = `${this.config.headTrHeight}px`; // 多级表头时需要重新计算 
     //计算宽度
-    this.w_gird_fixed = (w_gird_fixed + (this.isfixed ? this.w_checkbox + (this.isfunction ? this.w_op : 0) : 0)) + 'px';
-    this.w_gird_table = (w_gird_table + (this.isfixed ? 0 : this.w_checkbox + (this.isfunction ? 0 : this.w_op))) + 'px';
+    this.w_gird_fixed = (w_gird_fixed + (this.isfixed ? w_cf : 0)) + 'px';
+    this.w_gird_table = (w_gird_table + (this.isfixed ? 0 : w_cf)) + 'px';
     // let reg = new RegExp(/^[0-9]+%$/);
     // this.w_gird_table = reg.test(this.config.width) ? this.config.width : this.w_gird_table;
     // this.w_gird2_inner_header = reg.test(this.config.width) ? this.config.width : this.w_gird2_inner_header;
@@ -283,6 +304,16 @@ export class FixTableComponent implements OnInit, OnChanges {
     op.item = item;
     this.rowOperation.emit(op);
     return false;
+  }
+
+  mouseoverTr(i){
+     this.i_hover = i; 
+     console.log(this.i_hover);
+  }
+
+  mouseoutTr(i){
+    this.i_hover = 0; 
+    console.log(this.i_hover);
   }
 
   /*-------------------------------------分页-----------------------------------*/

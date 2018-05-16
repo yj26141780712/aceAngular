@@ -1,7 +1,9 @@
-<div style="height: 100%;width: 100%">
-    <app-fix-table [settings]="settings" [source]="source" (sortEvent)="sortEvent($event)" (selectEvent)="selectEvent($event)" (rowOperation)="rowOperation($event)">
-    </app-fix-table>
+<div #ft style="height: 100%;width: 100%">
+  <app-fix-table [gwidth]="ft.clientWidth" [settings]="settings" [source]="source" (sortEvent)="sortEvent($event)" (selectEvent)="selectEvent($event)"
+    (rowOperation)="rowOperation($event)">
+  </app-fix-table>
 </div>
+
 <!-- <div>
   <input type="text"> 
 </div> -->
