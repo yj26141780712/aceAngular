@@ -1,7 +1,18 @@
+<!-- <header class="home-header">
+    <nav class="navbar pull-left pb-0 pt-0">
+        <small class="navbar-brand mb-0 h1"><i class="fa fa-leaf mr-2"></i>Asto Admin</small>
+    </nav>
+    <nav class="navbar pull-right pb-0 pt-0">
+        <a class="navbar-brand" href="#">用户端</a>
+    </nav>
+</header>
+<main>
+
+</main> -->
+
 <div #ft style="height: 100%;width: 100%">
-  <app-fix-table [gwidth]="ft.clientWidth" [settings]="settings" [source]="source" (sortEvent)="sortEvent($event)" (selectEvent)="selectEvent($event)"
-    (rowOperation)="rowOperation($event)">
-  </app-fix-table>
+    <app-fix-table [gwidth]="ft.clientWidth" [settings]="settings" [source]="source" (sortEvent)="sortEvent($event)">
+    </app-fix-table>
 </div>
 
 <!-- <div>

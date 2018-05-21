@@ -69,16 +69,16 @@
                     &:nth-child(odd) {
                         background: #f9f9f9;
                     }
-                    &.hoverShow{
+                    &.hoverShow {
                         background: #f5f5f5;
                     }
-                    &.active{
+                    &.active {
                         background: #dff0d9; // background:   #d0e9c6;
                     }
-                    &.hoverActiveShow{
+                    &.hoverActiveShow {
                         background: #d0e9c6;
                     }
-                    td { 
+                    td {
                         font-size: 14px;
                     }
                 }
@@ -267,6 +267,31 @@
             .input-sm {
                 height: 30px;
                 line-height: 30px;
+            }
+        }
+    }
+    
+    .datagird-tool {
+        background: linear-gradient(to bottom, #fcfcfc 20%, #eee 100%);
+        border-top: 1px solid #ddd;
+        ul.navbar-nav {
+            flex-direction: row;
+            align-items: center;
+            li {
+                padding-left: 0.5rem;
+                float: left;
+                a {
+                    margin-right: 0.5rem;
+                    padding: 0 0.2rem;
+                    border: 1px solid rgba(255, 255, 255, 0);
+                }
+                a span {
+                    padding-left: 0.3rem;
+                }
+                a:hover {
+                    cursor: pointer;
+                    border: 1px solid #007bff;
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-<div class="datagird-search row" [style.height]='h_gird_search'>
+<div *ngIf="config.isShowSearch" class="datagird-search row" [style.height]='hGirdSearch'>
     <div class="col-sm-4 col-md-4">
         显示第
         <span>{{beginNum}}</span>到
@@ -12,14 +12,23 @@
         </div>
     </div>
 </div>
-<div class="datagird-view" [style.height]='h_gird_view'>
-    <div class="datagird-view1" [style.width]="w_gird_fixed">
-        <div class="datagird-header" [style.height]="h_gird_header">
+<div *ngIf="isShowTool" class="datagird-tool" [style.height]='hGirdTool'>
+    <ul class="navbar-nav" [style.height]='hGirdTool'>
+        <li *ngFor="let op of config.toolOperations" class="nav-item">
+            <a (click)="toolOpClick($event,op)">
+                <i class="fa" [ngClass]="op.iconClass"></i><span>{{op.title}}</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="datagird-view" [style.height]='hGirdView'>
+    <div class="datagird-view1" [style.width]="wGirdFixed">
+        <div class="datagird-header" [style.height]="hGirdHeader">
             <div class="datagird-header-inner">
-                <table class="datagird-htable" [style.width]="w_gird_fixed">
+                <table class="datagird-htable" [style.width]="wGirdFixed">
                     <thead>
-                        <tr [style.height]="h_gird_header">
-                            <td *ngIf="isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'" >
+                        <tr [style.height]="hGirdHeader">
+                            <td *ngIf="isfixed&&config.isShowcheck" [style.width]="wCheckbox+'px'">
                                 <input type="checkbox" (click)="selectAllRow($event.target.checked)" [checked]="isAllCheck()">
                             </td>
                             <td *ngIf="isfixed&&isfunction" [style.width]="w_op+'px'">
@@ -37,17 +46,17 @@
                 </table>
             </div>
         </div>
-        <div class="datagird-body" [style.height]="h_gird_body" [scrollTop]="scrollTop">
+        <div class="datagird-body" [style.height]="hGirdBody" [scrollTop]="scrollTop">
             <div class="datagird-body-inner">
-                <table class="datagird-btable" [style.width]="w_gird_fixed">
+                <table class="datagird-btable" [style.width]="wGirdFixed">
                     <tbody>
-                        <tr *ngFor="let item of sourceShow;let i= index" [class.hoverShow]="i==i_hover&&!isCheck(i)" [class.hoverActiveShow]="i==i_hover&&isCheck(i)" [class.active]="isCheck(i)" [style.height]="h_gird_body_tr" (click)="selectTr(i)" (mouseover)="mouseoverTr(i)" (mouseout)="mouseoutTr(i)" >
-                            <td *ngIf="isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
+                        <tr *ngFor="let item of sourceShow;let i= index" [class.hoverShow]="i==iHover&&!isCheck(i)" [class.hoverActiveShow]="i==iHover&&isCheck(i)" [class.active]="isCheck(i)" [style.height]="hGirdBodyTr" (click)="selectTr(i)" (mouseover)="mouseoverTr(i)" (mouseout)="mouseoutTr(i)">
+                            <td *ngIf="isfixed&&config.isShowcheck" [style.width]="wCheckbox+'px'">
                                 <input type="checkbox" (click)="selectOneRow($event,i)" [checked]="isCheck(i)">
                             </td>
                             <td *ngIf="isfixed&&isfunction" [style.width]="w_op+'px'">
                                 <div class="operation">
-                                    <a href *ngFor="let op of config.operation" class="fa" [ngClass]="op.iconClass" [title]="op.title" (click)="opClick($event,op,item)">
+                                    <a href *ngFor="let op of config.rowOperations" class="fa" [ngClass]="op.iconClass" [title]="op.title" (click)="opClick($event,op,item)">
                                     </a>
                                 </div>
                             </td>
@@ -65,13 +74,13 @@
 
         </div>
     </div>
-    <div class="datagird-view2" [style.left]="w_gird_fixed">
-        <div class="datagird-header" [style.height]="h_gird_header" [scrollLeft]="scrollLeft">
+    <div class="datagird-view2" [style.left]="wGirdFixed">
+        <div class="datagird-header" [style.height]="hGirdHeader" [scrollLeft]="scrollLeft">
             <div class="datagird-header-inner">
-                <table class="datagird-htable" [style.height]="h_gird_header" [style.width]="w_gird_table">
+                <table class="datagird-htable" [style.height]="hGirdHeader" [style.width]="wGirdTable">
                     <thead>
-                        <tr [style.height]="h_gird_header">
-                            <td *ngIf="!isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
+                        <tr [style.height]="hGirdHeader">
+                            <td *ngIf="!isfixed&&config.isShowCheck" [style.width]="wCheckbox+'px'">
                                 <input type="checkbox" (click)="selectAllRow($event.target.checked)" [checked]="isAllCheck()">
                             </td>
                             <td *ngIf="!isfixed&&isfunction" [style.width]="w_op+'px'">
@@ -89,16 +98,16 @@
                 </table>
             </div>
         </div>
-        <div class="datagird-body" [style.height]="h_gird_body" (scroll)="scroll($event)">
-            <table class="datagird-btable " [style.width]="w_gird_table">
+        <div class="datagird-body" [style.height]="hGirdBody" (scroll)="scroll($event)">
+            <table class="datagird-btable " [style.width]="wGirdTable">
                 <tbody>
-                    <tr *ngFor="let item of sourceShow;let i = index" [class.hoverShow]="i==i_hover" [class.hoverActiveShow]="i==i_hover&&isCheck(i)" [class.active]="isCheck(i)" [style.height]="h_gird_body_tr" (click)="selectTr(i)" (mouseover)="mouseoverTr(i)" (mouseout)="mouseoutTr(i)">
-                        <td *ngIf="!isfixed&&config.isShowCheck" [style.width]="w_checkbox+'px'">
+                    <tr *ngFor="let item of sourceShow;let i = index" [class.hoverShow]="i==iHover" [class.hoverActiveShow]="i==iHover&&isCheck(i)" [class.active]="isCheck(i)" [style.height]="hGirdBodyTr" (click)="selectTr(i)" (mouseover)="mouseoverTr(i)" (mouseout)="mouseoutTr(i)">
+                        <td *ngIf="!isfixed&&config.isShowCheck" [style.width]="wCheckbox+'px'">
                             <input type="checkbox" (click)="selectOneRow($event,i)" [checked]="isCheck(i)">
                         </td>
                         <td *ngIf="!isfixed&&isfunction" [style.width]="w_op+'px'">
                             <div class="operation">
-                                <a href *ngFor="let op of config.operation" class="fa" [ngClass]="op.iconClass" [title]="op.title" (click)="opClick($event,op,item)">
+                                <a href *ngFor="let op of config.rowOperations" class="fa" [ngClass]="op.iconClass" [title]="op.title" (click)="opClick($event,op,item)">
                                 </a>
                             </div>
                         </td>
@@ -118,7 +127,7 @@
         <h2>数据加载中</h2>
     </div>
 </div>
-<div class="datagird-page" [style.height]='h_gird_page'>
+<div *ngIf="config.isShowPage" class="datagird-page" [style.height]='hGirdPage'>
     <div class="page-left">
         <div>
             显示

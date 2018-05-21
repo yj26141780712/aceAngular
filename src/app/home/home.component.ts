@@ -17,26 +17,32 @@ export class HomeComponent implements OnInit {
     this.settings = {
       headTrHeight: 40,
       bodyTrHeight: 30,
-      columns: [
-        { field: 'sn', title: '序号', fixed: true, width: 50 },
-        { field: 'm_id', title: '注塑机编号', fixed: true, sort: true, width: 200 },
-        { field: 'm_name', title: '注塑机名称', fixed: true, width: 100 },
-        { field: 'm_type', title: '注塑机类型', fixed: false, width: 100 },
-        { field: 'c_id', title: '采集器编号', fixed: false, width: 100 },
-        { field: 'o_name', title: '出厂调试人员', fixed: false, width: 160 },
-        { field: 'o_date', title: '出厂日期', fixed: false, sort: true, width: 100 },
-        { field: 'area', title: '所属片区', fixed: false, width: 100 },
-        { field: 'o_company', title: '出厂公司', fixed: false, width: 100 },
-        { field: 'd_company', title: '代理公司', fixed: false, width: 100 },
-        { field: 's_company', title: '塑料厂', fixed: false, width: 100 },
+      rowOperations: [
+        { type: 'edit', iconClass: 'fa-pencil', title: "编辑", callBack: this.edit },
+        { type: 'delete', iconClass: 'fa-trash', title: "删除", callBack: this.delete },
+        // { type: 'download', iconClass: 'fa-trash', title: "删除" },
+        // { type: 'download', iconClass: 'fa-trash', title: "删除" },
       ],
-      operation: [
-        { type: 'edit', iconClass: 'fa-pencil', title: "编辑" },
-        { type: 'delete', iconClass: 'fa-trash', title: "删除" },
+      toolOperations: [
+        { type: 'edit', iconClass: 'fa-pencil', title: "编辑", callBack: this.edit },
+        { type: 'delete', iconClass: 'fa-trash', title: "删除", callBack: this.delete },
         // { type: 'download', iconClass: 'fa-trash', title: "删除" },
         // { type: 'download', iconClass: 'fa-trash', title: "删除" },
-      ]
+      ], 
     }
+    this.settings.columns = [
+      { field: 'sn', title: '序号', fixed: true, width: 50 },
+      { field: 'm_id', title: '注塑机编号', fixed: true, sort: true, width: 200 },
+      { field: 'm_name', title: '注塑机名称', fixed: true, width: 100 },
+      { field: 'm_type', title: '注塑机类型', fixed: false, width: 100 },
+      { field: 'c_id', title: '采集器编号', fixed: false, width: 100 },
+      { field: 'o_name', title: '出厂调试人员', fixed: false, width: 160 },
+      { field: 'o_date', title: '出厂日期', fixed: false, sort: true, width: 100 },
+      { field: 'area', title: '所属片区', fixed: false, width: 100 },
+      { field: 'o_company', title: '出厂公司', fixed: false, width: 100 },
+      { field: 'd_company', title: '代理公司', fixed: false, width: 100 },
+      { field: 's_company', title: '塑料厂', fixed: false, width: 100 },
+    ];
     let array = [];
     for (let i = 0; i < 130; i++) {
       array.push({ m_id: i });
@@ -91,23 +97,13 @@ export class HomeComponent implements OnInit {
     console.log(item);
   }
 
-  rowOperation(op) {
-    console.log(op);
-    switch (op.type) {
-      case 'edit':
-        this.edit();
-        break;
-      case 'delete':
-        this.delete();
-        break;
-    }
+
+
+  edit(item) {
+    console.log(item);
   }
 
-  edit() {
-
-  }
-
-  delete() {
-
+  delete(item) {
+    console.log(item);
   }
 }
