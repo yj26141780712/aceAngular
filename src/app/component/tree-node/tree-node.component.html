@@ -1,0 +1,14 @@
+<li *ngFor="let node of nodes">
+    <span class="tree-switcher"></span>
+    <span class="tree-checkbox">
+      <span class="tree-checkbox-inner"></span>
+    </span>
+    <span class="tree-content">
+      <span class="tree-title">
+        {{node.title}}
+      </span>
+    </span>
+    <ul class="tree-child-tree">
+        <app-tree-node [nodes]="node.children"></app-tree-node>
+    </ul>
+</li>
