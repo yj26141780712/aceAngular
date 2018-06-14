@@ -39,6 +39,7 @@ body {
     display: inline-block;
     height: 24px;
     width: 24px;
+    outline: 0;
 }
 
 .tree-checkbox {
@@ -53,7 +54,6 @@ body {
     line-height: 1;
     position: relative;
     vertical-align: top;
-    //
 }
 
 .tree-checkbox-inner {
@@ -65,7 +65,33 @@ body {
     height: 16px;
     width: 16px;
     border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    &:hover {
+        border-color: #1890ff;
+    }
+    &:after {
+        /* -webkit-transform: rotate(45deg) scale(0); */
+        transform: rotate(45deg);
+        position: absolute;
+        left: 4.57142857px;
+        top: 1.14285714px;
+        display: table;
+        width: 5px;
+        height: 9px;
+        border: 2px solid #ffffff;
+        border-top: 0;
+        border-left: 0;
+        content: ' ';
+        /* transition: all .1s cubic-bezier(.71,-.46,.88,.6); */
+    }
 }
+
+.tree-checkbox-indeterminate .tree-checkbox-inner {
+    //background-color: #1890ff;
+    border-color: #1890ff;
+}
+
+.tree-checkbox-checked {}
 
 .tree-content {
     display: inline-block;
@@ -73,6 +99,7 @@ body {
     height: 24px;
     line-height: 24px;
     vertical-align: top;
+    outline: 0;
 }
 
 .tree-title {
