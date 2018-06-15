@@ -17,24 +17,16 @@ export class TreeNodeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-  
+
   }
 
   check(e, node) {
-    if (node.children && node.children.length > 0) {
-      this.ishasChecked = false;
-      this.hasChecked(node);
-      //console.log(this.checked);
-      this.updateChildren(node, !this.ishasChecked);
-      //console.log(node);
-    } else {
-      node.isChecked = !node.isChecked;
-    }
+
   }
 
   switch(e, key) {
-    if (this.expandKeys.includes(key)) {
-      let index = this.expandKeys.indexOf(key);
+    let index = this.expandKeys.indexOf(key);
+    if (index > -1) {
       this.expandKeys.splice(index, 1);
     } else {
       this.expandKeys.push(key);
@@ -55,26 +47,12 @@ export class TreeNodeComponent implements OnInit {
   isChecked(node) {
     let indeterminate = "tree-checkbox-indeterminate";
     let checked = "tree-checkbox-checked";
-    let isCheckedKey = this.checkedKey.includes(node.key);
     if (node.children && node.children.length > 0) {
 
-
     } else {
-      if(isCheckedKey) return checked;
+      if (this.checkedKey.includes(node.key)) return checked;
     }
-    console.log(this.checkedKey, node.key);
-    if (this.checkedKey.includes(node.key)) {
-      if (node.children && node.children.length > 0) {
-        let allChecked = node.children.every(child => {
-          return this.checkedKey.includes(child.key);
-        });
-        if (allChecked) return checked
-        return indeterminate;
-      } else {
-        return checked;
-      }
-    }
-    return "";
+
 
     // if (node.children && node.children.length > 0) {
     //   this.ishasNoChecked = false; //表示节点全选中
@@ -100,7 +78,15 @@ export class TreeNodeComponent implements OnInit {
         if (child.children && child.children.length > 0) {
           this.updateChildren(child, bl);
         } else {
-          child.isChecked = bl;
+          let index = this.checkedKey.indexOf(node.key);
+          if (bl) {
+            if (index < 0)
+              this.checkedKey.push(node.key);
+          } else {
+            if (index > -1) {
+              this.checkedKey.splice(index, 1);
+            }
+          }
         }
       });
     }
@@ -116,7 +102,7 @@ export class TreeNodeComponent implements OnInit {
         this.hasChecked(child);
       });
     } else {
-      if (node.isChecked) this.ishasChecked = true;
+      if (this.checkedKey.includes(node.key)) this.ishasChecked = true;
     }
   }
 
@@ -130,8 +116,7 @@ export class TreeNodeComponent implements OnInit {
         this.hasNoChecked(child);
       });
     } else {
-      if (!node.isChecked) this.ishasNoChecked = true;
+      if (!this.checkedKey.includes(node.key)) this.ishasNoChecked = true;
     }
   }
-
 }

@@ -15,15 +15,55 @@ li {
 }
 
 .tree-switcher {
+    position: relative;
     display: inline-block;
-    height: 24px;
-    width: 24px;
+    margin: 6px;
+    height: 12px;
+    width: 12px;
+    border: 1px solid #817979;
     outline: 0;
 }
 
-.tree-switcher-open {}
+.tree-switcher-open {
+    &:before {
+        position: absolute;
+        display: block;
+        left: 0px;
+        top: 5px;
+        width: 10px;
+        border-top: 1px solid #817979;
+        content: ' ';
+    }
+    &:after {
+        position: absolute;
+        display: block;
+        left: 2px;
+        top: 15px;
+        border: 0;
+        content: ' ';
+    }
+}
 
-.tree-switcher-close {}
+.tree-switcher-close {
+    &:before {
+        position: absolute;
+        display: block;
+        left: 0px;
+        top: 5px;
+        width: 10px;
+        border-top: 1px solid #817979;
+        content: ' ';
+    }
+    &:after {
+        position: absolute;
+        display: block;
+        left: 5px;
+        top: 0px;
+        height: 10px;
+        border-left: 1px solid #817979;
+        content: ' ';
+    }
+}
 
 .tree-checkbox {
     font-size: 14px;
@@ -90,6 +130,7 @@ li {
 }
 
 .tree-content {
+    position: relative;
     display: inline-block;
     padding: 0 5px;
     height: 24px;
