@@ -1,0 +1,12 @@
+<li *ngFor="let node of nodes;let i = index">
+    <span class="tree-switcher" [ngClass]="isExpend(node.key)?'tree-switcher-open':'tree-switcher-close'" (click)="switch($event,node)"></span>
+    <span class="tree-checkbox" [ngClass]="isChecked(node)" (click)="check($event,node)">
+        <span class="tree-checkbox-inner"></span>
+    </span>
+    <span class="tree-content">
+        <span class="tree-title">{{node.title}}</span>
+    </span>
+    <ul *ngIf="isExpend(node.key)" class="tree-child-tree">
+        <app-tree-node [nodes]="node.children" [expandKeys]="expandKeys" [checkedKey]="checkedKey" [selectedKeys]="selectedKeys"></app-tree-node>
+    </ul>
+</li>

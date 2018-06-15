@@ -15,8 +15,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.settings = {
-      headTrHeight: 40,
-      bodyTrHeight: 30,
+      headTrHeight: 40, //标题行高
+      bodyTrHeight: 30, //标题内容
       rowOperations: [
         { type: 'edit', iconClass: 'fa-pencil', title: "编辑", callBack: this.edit },
         { type: 'delete', iconClass: 'fa-trash', title: "删除", callBack: this.delete },
@@ -28,7 +28,12 @@ export class HomeComponent implements OnInit {
         { type: 'delete', iconClass: 'fa-trash', title: "删除", callBack: this.delete },
         // { type: 'download', iconClass: 'fa-trash', title: "删除" },
         // { type: 'download', iconClass: 'fa-trash', title: "删除" },
-      ], 
+      ],
+      isShowFunction: true,
+      isShowCheck: true, //是否显示
+      isShowSearch: true,
+      isShowPage: true,
+      isShowTool: true
     }
     this.settings.columns = [
       { field: 'sn', title: '序号', fixed: true, width: 50 },
@@ -43,11 +48,11 @@ export class HomeComponent implements OnInit {
       { field: 'd_company', title: '代理公司', fixed: false, width: 100 },
       { field: 's_company', title: '塑料厂', fixed: false, width: 100 },
     ];
-    let array = [];
-    for (let i = 0; i < 130; i++) {
-      array.push({ m_id: i });
-    }
-    this.source = [].concat(this.source = [].concat(array));
+    // let array = [];
+    // for (let i = 0; i < 130; i++) {
+    //   array.push({ m_id: i });
+    // }
+    // this.source = [].concat(this.source = [].concat(array));
     let _url = "http://192.168.2.229:8088/IMS/api/apideviceList.action";
     this.http.get(_url).subscribe(res => {
       let json = res.json();
@@ -96,8 +101,6 @@ export class HomeComponent implements OnInit {
   selectEvent(item) {
     console.log(item);
   }
-
-
 
   edit(item) {
     console.log(item);

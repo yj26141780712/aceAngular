@@ -1,5 +1,5 @@
 import { element } from 'protractor';
-import { Component, OnInit, Input, Output, EventEmitter, HostListener, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener, OnChanges, ViewChild, ElementRef } from '@angular/core';
 import { Http } from '@angular/http';
 
 @Component({
@@ -28,9 +28,11 @@ export class FixTableComponent implements OnInit, OnChanges {
   config: any = {
     headTrHeight: 45,
     bodyTrHeight: 30,
+    isShowFunction: true,
     isShowCheck: true, //是否显示
     isShowSearch: true,
     isShowPage: true,
+    isShowTool: true,
     columns: [
     ],
     rowOperations: [
@@ -51,12 +53,17 @@ export class FixTableComponent implements OnInit, OnChanges {
   wGirdTable = ''; //非固定列总宽度
   wCheckbox = 50; // 勾选列宽度
   isfixed: boolean = false; //是否存在固定列
-  isfunction: boolean = false; //是否显示功能列
+  isfunction: boolean = true; //是否显示功能列
   isShowTool: boolean = false; //是否显示工具栏
+  isShowCheck: boolean = true;
   iHover = 0;
   w_op = 30; // 工作操作区宽度
+  showColumns: any[] = [];
+  isSettingsShow = false;
+  isColumnsShow = false;
 
-  @Input() gwidth: number;
+  @ViewChild('datagird') datagird: ElementRef;
+  gwidth: number;
   @Input() settings: any;
   @Input() source: Array<any> = [];
   @Output() sortEvent = new EventEmitter<any>();
@@ -67,7 +74,6 @@ export class FixTableComponent implements OnInit, OnChanges {
 
   scrollTop: number;
   scrollLeft: number;
-
 
   //分页
   sourceShow: Array<any> = [];
@@ -98,6 +104,13 @@ export class FixTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    if (this.settings) Object.assign(this.config, this.settings); //配置用户设置
+    this.gwidth = this.datagird && this.datagird.nativeElement.clientWidth;
+    this.datagird.nativeElement
+    this.isShowCheck = this.settings.isShowCheck !== false;
+    this.isfunction = this.settings.isShowFunction !== false;
+    this.isShowTool = this.settings.isShowTool !== false;
+    this.SetShowColumns();
     this.tableInit();
     this.databind(true, true);
     this.pageChange();
@@ -109,11 +122,11 @@ export class FixTableComponent implements OnInit, OnChanges {
    * 表格初始化
    */
   tableInit() {
-    if (this.settings) Object.assign(this.config, this.settings); //配置用户设置
     let wGirdFixed = 0;
     let wGirdTable = 0;
     //计算固定和非固定部分宽度
-    for (let col of this.config.columns) {
+    this.isfixed = false;
+    for (let col of this.showColumns) {
       col.width = col.width || 100; //用户没有传入width时 默认100
       if (col.fixed) {
         wGirdFixed += col.width;
@@ -124,19 +137,20 @@ export class FixTableComponent implements OnInit, OnChanges {
     }
 
     if (this.config.rowOperations.length > 0) {
-      this.isfunction = true;
       this.w_op = 30;
       this.config.rowOperations.forEach(() => {
         this.w_op += 20;
       })
+    } else {
+      this.w_op = 30;
     }
     let wCf = this.wCheckbox + (this.isfunction ? this.w_op : 0) //选择列和功能区的宽度
 
     //当table设置宽度不足容器宽度时自动补全宽度
     if (this.gwidth && this.gwidth > wGirdFixed + wGirdTable + wCf) {
       let w_dif = this.gwidth - wGirdFixed - wGirdTable - wCf - 20; //20 去掉纵向滚动条宽度 避免产生宽度过长产生横向滚动条
-      let every = w_dif / this.config.columns.length; //每个标题列应该增加的宽度
-      this.config.columns.forEach(col => {
+      let every = w_dif / this.showColumns.length; //每个标题列应该增加的宽度
+      this.showColumns.forEach(col => {
         col.width = col.width + every;
         if (col.fixed) {
           wGirdFixed += every;
@@ -156,7 +170,6 @@ export class FixTableComponent implements OnInit, OnChanges {
     // let reg = new RegExp(/^[0-9]+%$/);
     // this.wGirdTable = reg.test(this.config.width) ? this.config.width : this.wGirdTable;
     // this.wGird2InnerHeader = reg.test(this.config.width) ? this.config.width : this.wGird2InnerHeader;
-    if (this.config.toolOperations.length > 0) this.isShowTool = true;
     let hReduce = 0;
     if (this.isShowTool) hReduce += 32;
     if (this.config.isShowSearch) hReduce += 45;
@@ -318,6 +331,22 @@ export class FixTableComponent implements OnInit, OnChanges {
     this.iHover = 0;
   }
 
+  /**
+   * 设置显示列
+   */
+  SetShowColumns() {
+    let arr = [];
+    this.settings.columns.forEach(obj => {
+      obj.show = obj.show === undefined || obj.show ? true : false;
+      if (obj.show) {
+        let newObj = Object.assign({}, obj);
+        arr.push(newObj);
+      }
+    });
+    console.log(arr);
+    this.showColumns = [].concat(arr);
+  }
+
   /*-------------------------------------分页-----------------------------------*/
 
   /**
@@ -440,6 +469,7 @@ export class FixTableComponent implements OnInit, OnChanges {
   @HostListener('document:click', ['$event'])
   onclick(event) {
     this.isPageSelectShow = false;
+    this.isSettingsShow = false;
   }
 
   /*-------------------------------------搜索-----------------------------------*/
@@ -466,7 +496,7 @@ export class FixTableComponent implements OnInit, OnChanges {
       let arr = [];
       this.source.forEach(item => {
         let bl = false;
-        for (let col of this.config.columns) {
+        for (let col of this.showColumns) {
           let colVal = item[col.field] != undefined ? item[col.field].toString() : '';
           bl = colVal.includes(value.trim());
           if (bl) {
@@ -482,11 +512,76 @@ export class FixTableComponent implements OnInit, OnChanges {
     }
   }
   /*-------------------------------------功能-----------------------------------*/
-  toolOpClick(event,op){
+  /**
+   * 工具栏按钮点击事件
+   * @param event 工具栏事件
+   * @param op 操作对象
+   */
+  toolOpClick(event, op) {
     console.log(op);
     let arr = [];
     this.checkedIndex.forEach(i => arr.push(this.sourceShow[i]));
-    op.callBack(arr)
+    op.callBack(arr); //回调传回一个选中行数组
+  }
+
+  /**
+   * 设置点击事件 显示设置功能列表
+   * @param e 
+   */
+  settingsClick(e) {
+    this.isSettingsShow = !this.isSettingsShow;
+    e.stopPropagation();
+  }
+
+  checkColumns: any = [];
+  /**
+   * 显示选择列设置窗口
+   * @param e 
+   */
+  showColumnsForm(e) {
+    this.isSettingsShow = !this.isSettingsShow;
+    this.isColumnsShow = true;
+    this.checkColumns = [];
+    let arr = [];
+    this.config.columns.forEach(obj => {
+      let newObj = Object.assign({}, obj);
+      arr.push(newObj);
+    });
+    this.checkColumns = [].concat(arr);
+    e.stopPropagation();
+    //isShowCheck
+  }
+
+  /**
+   * 选择显示列事件
+   * @param col 列
+   */
+  checkChange(col) {
+    col.show = !col.show;
+    console.log(this.checkColumns);
+  }
+
+  /**
+   * 关闭选择列窗口
+   */
+  closeModal() {
+    this.isColumnsShow = false;
+  }
+
+  /**
+   * 保存显示的列
+   * @param check 是否显示选择列
+   * @param fun 是否显示功能区
+   */
+  colSave(check, fun) {
+    console.log(fun);
+    this.isShowCheck = check;
+    this.isfunction = fun;
+    this.checkColumns.forEach((obj, i) => {
+      this.config.columns[i].show = obj.show;
+    });
+    this.SetShowColumns();
+    this.tableInit();
   }
 
 }
