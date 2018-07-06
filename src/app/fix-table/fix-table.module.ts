@@ -1,3 +1,6 @@
+import { UploadFileComponent } from './upload-file/upload-file.component';
+import { FormDropdownComponent } from './form-dropdown/form-dropdown.component';
+import { FormDatepickerComponent } from './form-datepicker/form-datepicker.component';
 import { TreeComponent } from './tree/tree.component';
 import { TreeNodeComponent } from './tree-node/tree-node.component';
 import { NgModule } from '@angular/core';
@@ -10,8 +13,22 @@ import { FixTableComponent } from './fix-table/fix-table.component';
     CommonModule,
     FormsModule,
   ],
-  declarations: [FixTableComponent, TreeNodeComponent, TreeComponent],
-  exports: [FixTableComponent, TreeNodeComponent, TreeComponent]
+  declarations: [
+    FixTableComponent,
+    TreeNodeComponent,
+    TreeComponent,
+    FormDatepickerComponent,
+    FormDropdownComponent,
+    UploadFileComponent
+  ],
+  exports: [
+    FixTableComponent,
+    TreeNodeComponent,
+    TreeComponent,
+    FormDatepickerComponent,
+    FormDropdownComponent,
+    UploadFileComponent
+  ]
 })
 export class FixTableModule { }
 

@@ -1,0 +1,10 @@
+<div class="dropdown">
+    <input type="button" class="form-control" [value]="dropdownValue">
+    <button type="button" class="form-control" (click)="showItems($event)">   
+    </button>
+    <ul class="dropdown-menu" [class.show]="itemsShow">
+        <li *ngFor="let item of items">
+            <span class="dropdown-item" [class.item-selected]="dropdownValue==item.key" (click)="selectItem($event,item)">{{item.value}}</span>
+        </li>
+    </ul>
+</div>

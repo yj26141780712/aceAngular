@@ -1,5 +1,5 @@
 <ul class="tree">
     <!---->
-    <app-tree-node [nodes]="nodes" [expandKeys]="expandKeys" [checkedKey]="checkedKey" [selectedKeys]="selectedKeys">
+    <app-tree-node [nodes]="nodes" (checkEvent)="outCheck($event)">
     </app-tree-node>
 </ul>

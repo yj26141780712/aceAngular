@@ -1,1 +1,1 @@
-<app-tree [nodes]="nodes" [expandKeys]="expandKeys" [checkedKey]="checkedKey" [selectedKeys]="selectedKeys"></app-tree>
+<app-tree [nodes]="nodes" (checkChange)="checkChange($event)"></app-tree>

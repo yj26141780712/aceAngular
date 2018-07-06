@@ -42,11 +42,11 @@ export class HomeComponent implements OnInit {
       { field: 'm_type', title: '注塑机类型', fixed: false, width: 100 },
       { field: 'c_id', title: '采集器编号', fixed: false, width: 100 },
       { field: 'o_name', title: '出厂调试人员', fixed: false, width: 160 },
-      { field: 'o_date', title: '出厂日期', fixed: false, sort: true, width: 100 },
-      { field: 'area', title: '所属片区', fixed: false, width: 100 },
-      { field: 'o_company', title: '出厂公司', fixed: false, width: 100 },
-      { field: 'd_company', title: '代理公司', fixed: false, width: 100 },
-      { field: 's_company', title: '塑料厂', fixed: false, width: 100 },
+      { field: 'o_date', title: '出厂日期', fixed: false, sort: true, width: 300 },
+      { field: 'area', title: '所属片区', fixed: false, width: 300 },
+      { field: 'o_company', title: '出厂公司', fixed: false, width: 300 },
+      { field: 'd_company', title: '代理公司', fixed: false, width: 300 },
+      { field: 's_company', title: '塑料厂', fixed: false, width: 300 },
     ];
     // let array = [];
     // for (let i = 0; i < 130; i++) {

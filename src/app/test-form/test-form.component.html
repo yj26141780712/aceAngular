@@ -1,0 +1,33 @@
+<div class="container">
+    <form [formGroup]="testForm" (ngSubmit)="submit(testForm.value)">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left"></h4>
+            <button type="button" class="close pull-right" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row">
+                <label class="form-control-label text-right col-sm-3" for="areaName"><i>*</i>片区名称：</label>
+                <div class="col-sm-6">
+                    <app-form-dropdown formControlName="test1" [items]="items"></app-form-dropdown>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="form-control-label text-right col-sm-3" for="remark">备注信息：</label>
+                <div class="col-sm-6">
+                    <app-form-datepicker formControlName="test2"></app-form-datepicker>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="form-control-label text-right col-sm-3" for="remark">备注信息：</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" formControlName="test3">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-sm btn-primary" [disabled]="!this.testForm.valid" value="提交">
+        </div>
+    </form>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-tree',
@@ -10,10 +10,14 @@ export class TreeComponent implements OnInit {
   @Input() nodes: any;
   @Input() expandKeys = [];
   @Input() checkedKey = [];
-  @Input() selectedKeys = [];
+  @Output() checkChange = new EventEmitter<any>();
   constructor() { }
   ngOnInit() {
-    
+
+  }
+
+  outCheck(e) {
+    this.checkChange.emit(e);
   }
 
 }

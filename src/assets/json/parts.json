@@ -1,0 +1,307 @@
+{
+    "parts": [{
+            "id": 9,
+            "part_name": "润滑2",
+            "part_category_id": "30",
+            "part_id": "302",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 10,
+            "part_name": "机器",
+            "part_category_id": "00",
+            "part_id": "001",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 11,
+            "part_name": "马达",
+            "part_category_id": "04",
+            "part_id": "041",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 12,
+            "part_name": "温度",
+            "part_category_id": "05",
+            "part_id": "051",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 13,
+            "part_name": "io",
+            "part_category_id": "06",
+            "part_id": "061",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 14,
+            "part_name": "电子尺",
+            "part_category_id": "07",
+            "part_id": "071",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 15,
+            "part_name": "DA部件",
+            "part_category_id": "08",
+            "part_id": "081",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 16,
+            "part_name": "液压动力",
+            "part_category_id": "09",
+            "part_id": "091",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 17,
+            "part_name": "伺服",
+            "part_category_id": "0A",
+            "part_id": "0A1",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 18,
+            "part_name": "报警",
+            "part_category_id": "0B",
+            "part_id": "0B1",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 19,
+            "part_name": "油温",
+            "part_category_id": "0C",
+            "part_id": "0C1",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 20,
+            "part_name": "注射",
+            "part_category_id": "10",
+            "part_id": "101",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 21,
+            "part_name": "座台",
+            "part_category_id": "11",
+            "part_id": "111",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 22,
+            "part_name": "开关模",
+            "part_category_id": "20",
+            "part_id": "201",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 23,
+            "part_name": "托模",
+            "part_category_id": "21",
+            "part_id": "211",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 24,
+            "part_name": "中子A",
+            "part_category_id": "22",
+            "part_id": "221",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 25,
+            "part_name": "中子B",
+            "part_category_id": "22",
+            "part_id": "222",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 26,
+            "part_name": "中子C",
+            "part_category_id": "22",
+            "part_id": "223",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 27,
+            "part_name": "中子D",
+            "part_category_id": "22",
+            "part_id": "224",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 28,
+            "part_name": "吹气1",
+            "part_category_id": "23",
+            "part_id": "231",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 29,
+            "part_name": "吹气2",
+            "part_category_id": "23",
+            "part_id": "232",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 30,
+            "part_name": "吹气3",
+            "part_category_id": "23",
+            "part_id": "233",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 31,
+            "part_name": "吹气4",
+            "part_category_id": "23",
+            "part_id": "234",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 32,
+            "part_name": "吹气5",
+            "part_category_id": "23",
+            "part_id": "235",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 33,
+            "part_name": "吹气6",
+            "part_category_id": "23",
+            "part_id": "236",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 34,
+            "part_name": "调模",
+            "part_category_id": "24",
+            "part_id": "241",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 35,
+            "part_name": "安全门",
+            "part_category_id": "29",
+            "part_id": "291",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 36,
+            "part_name": "润滑",
+            "part_category_id": "30",
+            "part_id": "301",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 37,
+            "part_name": "机械手",
+            "part_category_id": "31",
+            "part_id": "311",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 38,
+            "part_name": "电眼",
+            "part_category_id": "32",
+            "part_id": "321",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 39,
+            "part_name": "保留",
+            "part_category_id": "33",
+            "part_id": "331",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 40,
+            "part_name": "保留",
+            "part_category_id": "33",
+            "part_id": "332",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 41,
+            "part_name": "保留",
+            "part_category_id": "33",
+            "part_id": "333",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 42,
+            "part_name": "保留",
+            "part_category_id": "33",
+            "part_id": "334",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 43,
+            "part_name": "保留",
+            "part_category_id": "33",
+            "part_id": "335",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 44,
+            "part_name": "保留",
+            "part_category_id": "33",
+            "part_id": "336",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 45,
+            "part_name": "系统参数",
+            "part_category_id": "33",
+            "part_id": "337",
+            "company_id": null,
+            "model_id": 1
+        },
+        {
+            "id": 46,
+            "part_name": "润滑3",
+            "part_category_id": "30",
+            "part_id": "303",
+            "company_id": null,
+            "model_id": 1
+        }
+    ]
+}

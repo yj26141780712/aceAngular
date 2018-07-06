@@ -6,63 +6,65 @@ li {
     outline: 0;
     line-height: 0.8;
     ul {
+        position: relative;
         padding: 0 0 0 18px;
         list-style: none;
     }
     span.tree-checkbox {
         margin: 4px 4px 0 2px;
     }
+    &:not(:last-child) {
+        position: relative;
+        &:before {
+            content: '';
+            position: absolute;
+            border-left: 1px solid #d9d9d9;
+            height: 100%;
+            left: 11px;
+            margin: 22px 0;
+            //z-index: -1;
+        }
+    }
 }
 
 .tree-switcher {
     position: relative;
     display: inline-block;
-    margin: 6px;
-    height: 12px;
-    width: 12px;
-    border: 1px solid #817979;
+    padding: 6px;
+    height: 24px;
+    width: 24px;
+    font-size: 10px;
     outline: 0;
-}
-
-.tree-switcher-open {
-    &:before {
-        position: absolute;
-        display: block;
-        left: 0px;
-        top: 5px;
-        width: 10px;
-        border-top: 1px solid #817979;
-        content: ' ';
-    }
-    &:after {
-        position: absolute;
-        display: block;
-        left: 2px;
-        top: 15px;
-        border: 0;
-        content: ' ';
+    background: #ffffff;
+    &:hover {
+        cursor: pointer;
     }
 }
 
-.tree-switcher-close {
-    &:before {
-        position: absolute;
-        display: block;
-        left: 0px;
-        top: 5px;
-        width: 10px;
-        border-top: 1px solid #817979;
-        content: ' ';
-    }
-    &:after {
-        position: absolute;
-        display: block;
-        left: 5px;
-        top: 0px;
-        height: 10px;
-        border-left: 1px solid #817979;
-        content: ' ';
-    }
+.tree-switcher-icon {
+    position: absolute;
+    height: 16px;
+    width: 16px;
+}
+
+.tree-switcher-file {
+    background-repeat: no-repeat;
+    background-image: url("/assets/imgs/file.png");
+    background-size: 16px 16px;
+    top: 4px;
+    left: 4px;
+}
+
+.tree-switcher-minus {
+    background-repeat: no-repeat;
+    background-image: url("/assets/imgs/minus.png");
+    background-size: 12px 12px;
+}
+
+.tree-switcher-add {
+    background-repeat: no-repeat;
+    background-image: url("/assets/imgs/add.png");
+    background-size: 12px 12px;
 }
 
 .tree-checkbox {
@@ -116,8 +118,8 @@ li {
         /* -webkit-transform: rotate(45deg) scale(0); */
         transform: rotate(45deg);
         position: absolute;
-        left: 4.57142857px;
-        top: 1.14285714px;
+        left: 4.7px;
+        top: 1.2px;
         display: table;
         width: 5px;
         height: 9px;
@@ -141,4 +143,8 @@ li {
 
 .tree-title {
     display: block;
+    &:hover {
+        background: #1dacff;
+        cursor: pointer;
+    }
 }

@@ -1,5 +1,6 @@
 import { async } from '@angular/core/testing';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Tree } from '@angular/router/src/utils/tree';
 
 @Component({
   selector: 'app-tree-node',
@@ -11,9 +12,7 @@ export class TreeNodeComponent implements OnInit {
   @Input() nodes: any;
   ishasChecked = false;
   ishasNoChecked = false;
-  @Input() expandKeys = [];
-  @Input() checkedKey = [];
-  @Input() selectedKeys = [];
+  @Output() checkEvent = new EventEmitter<any>();
   constructor() { }
 
   ngOnInit() {
@@ -21,74 +20,68 @@ export class TreeNodeComponent implements OnInit {
   }
 
   check(e, node) {
-
-  }
-
-  switch(e, key) {
-    let index = this.expandKeys.indexOf(key);
-    if (index > -1) {
-      this.expandKeys.splice(index, 1);
+    this.checkEvent.emit(node);
+    if (node.children && node.children.length > 0) {
+      this.ishasChecked = false;
+      this.hasChecked(node); //判断是否有选中子节点
+      console.log(node);
+      console.log(this.ishasChecked)
+      node.children.forEach(child => {
+        this.setChildren(child, !this.ishasChecked);
+      });
     } else {
-      this.expandKeys.push(key);
+      node.isChecked = !node.isChecked;
     }
   }
 
-  isIndeterminate(node) {
-
+  switch(e, node) {
+    console.log(node);
+    node.isExpanded = !node.isExpanded;
   }
 
-  isExpend(key) {
-    if (this.expandKeys.includes(key)) {
+  getIconClass(node) { //?'tree-switcher-open':'tree-switcher-close'
+    if (node.children && node.children.length > 0) {
+      if (node.isExpanded) {
+        return 'tree-switcher-minus'
+      } else {
+        return 'tree-switcher-add'
+      }
+    } else {
+      return 'tree-switcher-file';
+    }
+  }
+
+  isExpend(isExpanded) {
+    if (isExpanded) {
       return true;
     }
     return false;
   }
 
   isChecked(node) {
-    let indeterminate = "tree-checkbox-indeterminate";
-    let checked = "tree-checkbox-checked";
+    let indeterminate = "tree-checkbox-indeterminate"; //不全选
+    let checked = "tree-checkbox-checked"; //全选
     if (node.children && node.children.length > 0) {
-
-    } else {
-      if (this.checkedKey.includes(node.key)) return checked;
-    }
-
-
-    // if (node.children && node.children.length > 0) {
-    //   this.ishasNoChecked = false; //表示节点全选中
-    //   this.hasNoChecked(node);
-    //   if (!this.ishasNoChecked) return checked;
-    //   this.ishasChecked = false;
-    //   this.hasChecked(node);
-    //   if (this.ishasChecked) return indeterminate;
-    // } else {
-    //   if (node.isChecked) return checked;
-    // }
-    // return "";
-  }
-
-  /**
-   * 变更子节点选中
-   * @param node 节点
-   * @param bl 是否选中
-   */
-  updateChildren(node, bl) {
-    if (node.children && node.children.length > 0) {
-      node.children.forEach(child => {
-        if (child.children && child.children.length > 0) {
-          this.updateChildren(child, bl);
+      //判断是否有没有选中节点
+      this.ishasNoChecked = false;
+      this.ishasChecked = false;
+      this.hasNoChecked(node);
+      this.hasChecked(node);
+      if (!this.ishasNoChecked) {
+        return checked;
+      } else {
+        if (this.ishasChecked) {
+          return indeterminate;
         } else {
-          let index = this.checkedKey.indexOf(node.key);
-          if (bl) {
-            if (index < 0)
-              this.checkedKey.push(node.key);
-          } else {
-            if (index > -1) {
-              this.checkedKey.splice(index, 1);
-            }
-          }
+          return '';
         }
-      });
+      }
+    } else {
+      if (node.isChecked) {
+        return checked
+      } else {
+        return '';
+      };
     }
   }
 
@@ -102,7 +95,7 @@ export class TreeNodeComponent implements OnInit {
         this.hasChecked(child);
       });
     } else {
-      if (this.checkedKey.includes(node.key)) this.ishasChecked = true;
+      if (node.isChecked) this.ishasChecked = true;
     }
   }
 
@@ -116,7 +109,21 @@ export class TreeNodeComponent implements OnInit {
         this.hasNoChecked(child);
       });
     } else {
-      if (!this.checkedKey.includes(node.key)) this.ishasNoChecked = true;
+      if (!node.isChecked) this.ishasNoChecked = true;
+    }
+  }
+
+  outCheck(e) {
+    this.checkEvent.emit(e);
+  }
+
+  setChildren(node, checked) {
+    if (node.children && node.children.length > 0) {
+      node.children.forEach(child => {
+        this.setChildren(child, checked);
+      });
+    } else {
+      node.isChecked = checked;
     }
   }
 }

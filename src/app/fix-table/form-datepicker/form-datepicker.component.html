@@ -1,0 +1,62 @@
+<input #dateInput type="text" class="form-control datetime" readonly placeholder="请选择时间" (click)="dateSelect($event)" [value]="datepickerValue">
+<div class="datetimepicker datetimepicker-dropdown dropdown-menu" [class.show]="pickerShow" [ngStyle]="style" (click)="pickerClick($event)">
+    <div class="datetimepicker-days" [class.show]="typeShow=='days'">
+        <table class="table-condensed">
+            <thead>
+                <tr>
+                    <th class="prev" (click)="prev($event,'month')"><i class="fa fa-arrow-left"></i></th>
+                    <th colspan="5" class="switch" (click)="swith($event,'month')">{{ month+1 }}月 {{ year }}</th>
+                    <th class="next" (click)="next($event,'month')"><i class="fa fa-arrow-right"></i></th>
+                </tr>
+                <tr>
+                    <th class="dow">一</th>
+                    <th class="dow">二</th>
+                    <th class="dow">三</th>
+                    <th class="dow">四</th>
+                    <th class="dow">五</th>
+                    <th class="dow">六</th>
+                    <th class="dow">日</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let week of weeks">
+                    <td *ngFor="let time of week" class="day" [class.active]="isActive(time,'day')" [class.new]="isNew(time)" [class.old]="isOld(time)" (click)="dayClick($event,time)">
+                        {{ time.day }}
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="7" class="today" (click)="todayClick($event)">今天</th>
+                </tr>
+                <tr>
+                    <th colspan="7" class="clear" style="display: none;">Clear</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="datetimepicker-months" [class.show]="typeShow=='months'">
+        <table class="table-condensed">
+            <thead>
+                <tr>
+                    <th class="prev" (click)="prev($event,'year')"><i class="fa fa-arrow-left"></i></th>
+                    <th colspan="5" class="switch" (click)="swith($event,'year')">{{ year }}</th>
+                    <th class="next" (click)="next($event,'year')"><i class="fa fa-arrow-right"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="7"><span class="month" *ngFor="let time of months" [class.active]="isActive(time,'month')" (click)="monthClick($event,time)">{{ time.month+1 }}月</span></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="7" class="today" (click)="todayClick($event)">今天</th>
+                </tr>
+                <tr>
+                    <th colspan="7" class="clear" style="display: none;">Clear</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
