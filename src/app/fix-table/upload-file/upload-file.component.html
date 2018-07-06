@@ -1,9 +1,14 @@
-<div class="ant-upload ant-upload-select ant-upload-select-text ng-star-inserted">
-    <div class="ant-upload" tabindex="0" role="button">
-        <input style="display: none;" type="file" #file>
-        <button class="ant-btn ng-star-inserted" (click)="click()">
-          <i class="anticon anticon-upload ng-star-inserted" style="display: inline-block;"></i>
+<div class="est-upload">
+    <div class="est-upload-file">
+        <input style="display: none;" type="file" multiple="multiple" (change)="change($event,this.files)" #file>
+        <button class="est-upload-button" (click)="click($event)">
+          <i class="" style="display: inline-block;"></i>
           <span><span>Select File</span></span>
         </button>
+    </div>
+    <div class="est-upload-list-item">
+        <div *ngFor="let file of fileList;let i = index" class="ant-upload-list-item-info">
+            {{ file.name }} <input type="button" (click)="delFile($event,i)" value="删除">
+        </div>
     </div>
 </div>

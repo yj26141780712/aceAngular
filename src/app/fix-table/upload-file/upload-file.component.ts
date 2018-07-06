@@ -8,15 +8,30 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 export class UploadFileComponent implements OnInit {
 
   @ViewChild('file') file: ElementRef;
-
+  fileList: any[] = [];
   constructor() { }
 
   ngOnInit() {
-    //document.getElementById('123').addEventListener
-    this.file.nativeElement.addEventListener('click',function(e){
-          console.log(e);
-    });
-    console.log(this.file.nativeElement.addEventListener);
+
   }
 
+  click() {
+    this.file.nativeElement.click();
+  }
+
+  change(e) {
+    let files = e.target.files;
+    for (const key in files) {
+      if (files.hasOwnProperty(key)) {
+        const file = files[key];
+        this.fileList.push(file);
+      }
+    }
+  }
+
+  delFile(e, i) {
+    console.log(e);
+    console.log(i);
+    this.fileList.splice(i, 1);
+  }
 }
